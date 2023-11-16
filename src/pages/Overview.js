@@ -20,6 +20,7 @@ import {
   Avatar,
   Badge,
   Pagination,
+  Input, HelperText, Label, Select, Textarea, Button, Card, CardBody
 } from '@windmill/react-ui'
 
 import {
@@ -28,8 +29,11 @@ import {
   doughnutLegends,
   lineLegends,
 } from '../utils/demo/chartsData'
+import SectionTitle from '../components/Typography/SectionTitle'
+import SocialMediaStats from '../components/SocialMediaStats'
+import KeywordsStats from '../components/KeywordsStats'
 
-function Dashboard() {
+function Overview() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
 
@@ -50,12 +54,48 @@ function Dashboard() {
 
   return (
     <>
-      <PageTitle>Dashboard</PageTitle>
+      <PageTitle>Keyword Research</PageTitle>
 
-      <CTA />
+      <p className="text-gray-600 dark:text-gray-400 mb-5">
+      Explore the essence of keyword research with our comprehensive guide. Discover how strategic keyword analysis can elevate your online visibility and drive targeted traffic. 
+            </p>
+
+      <div className="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-2">
+        <Label className="mt-4">
+            <span>Enter a keyword</span>
+          </Label>
+        <div className="block lg:flex mt-2 gap-1 w-full">
+          <div className='w-full lg:w-3/4'>
+            <Input className="mt-1" placeholder="Seo" />
+          </div>
+          <div className='w-1/2 flex gap-4'>
+            <div className='w-3/4 lg:w-1/4'>
+              <Select className="mt-1">
+                <option>Kenya</option>
+                <option>Uganda</option>
+                <option>Tanzania</option>
+                <option>Ethiopia</option>
+              </Select>
+            </div>
+            <div className='mt-1 w-1/4 lg:w-1/4'>
+              <Button>
+                Search
+              </Button>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+      
+      <KeywordsStats />
+
+      <SocialMediaStats />
+      
+
+      {/* <CTA /> */}
 
       {/* <!-- Cards --> */}
-      <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
+      {/* <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
         <InfoCard title="Total clients" value="6389">
           <RoundIcon
             icon={PeopleIcon}
@@ -149,9 +189,9 @@ function Dashboard() {
           <Line {...lineOptions} />
           <ChartLegend legends={lineLegends} />
         </ChartCard>
-      </div>
+      </div> */}
     </>
   )
 }
 
-export default Dashboard
+export default Overview

@@ -9,7 +9,17 @@ const routes = [
   {
     path: '/app/dashboard', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Dashboard', // name that appear in Sidebar
+    name: 'Overview', // name that appear in Sidebar
+  },
+  {
+    path: '/app/dashboard', // the url
+    icon: 'HomeIcon', // the component being exported from icons/index.js
+    name: 'Keyword Overview', // name that appear in Sidebar
+  },
+  {
+    path: '/app/dashboard', // the url
+    icon: 'HomeIcon', // the component being exported from icons/index.js
+    name: 'Domain Overview', // name that appear in Sidebar
   },
   {
     path: '/app/forms',
