@@ -26,6 +26,9 @@ import { ReactComponent as DropdownIcon } from './dropdown.svg'
 import { ReactComponent as OutlinePersonIcon } from './outlinePerson.svg'
 import { ReactComponent as OutlineCogIcon } from './outlineCog.svg'
 import { ReactComponent as OutlineLogoutIcon } from './outlineLogout.svg'
+import { ReactComponent as RankIcon } from './rank-svgrepo-com.svg'
+import { ReactComponent as BackLinkIcon } from './backlink-back-link-arrow-browser-svgrepo-com.svg'
+import { ReactComponent as DomainIcon } from './domain-www-svgrepo-com.svg'
 
 export {
   ButtonsIcon,
@@ -56,4 +59,7 @@ export {
   OutlinePersonIcon,
   OutlineCogIcon,
   OutlineLogoutIcon,
+  RankIcon,
+  BackLinkIcon,
+  DomainIcon
 }

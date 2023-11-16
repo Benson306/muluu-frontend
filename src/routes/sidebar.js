@@ -6,18 +6,18 @@
  * `routes/index.js`
  */
 const routes = [
+  // {
+  //   path: '/app/keywords', // the url
+  //   icon: 'HomeIcon', // the component being exported from icons/index.js
+  //   name: 'Overview', // name that appear in Sidebar
+  // },
   {
-    path: '/app/dashboard', // the url
-    icon: 'HomeIcon', // the component being exported from icons/index.js
-    name: 'Overview', // name that appear in Sidebar
-  },
-  {
-    path: '/app/dashboard', // the url
+    path: '/app/keyword', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
     name: 'Keyword Overview', // name that appear in Sidebar
   },
   {
-    path: '/app/dashboard', // the url
+    path: '/app/domain', // the url
     icon: 'HomeIcon', // the component being exported from icons/index.js
     name: 'Domain Overview', // name that appear in Sidebar
   },

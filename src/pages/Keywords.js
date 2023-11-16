@@ -33,7 +33,7 @@ import SectionTitle from '../components/Typography/SectionTitle'
 import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
 
-function Overview() {
+function Keywords() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState([])
 
@@ -194,4 +194,4 @@ function Overview() {
   )
 }
 
-export default Overview
+export default Keywords
