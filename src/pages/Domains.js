@@ -101,37 +101,67 @@ function Domains() {
         
         </div>
       </div>
-      
-      
 
+
+      <SiteStats />
+      
+    
       <div className='block lg:flex gap-4 mb-5'>
 
-        <div className='w-full lg:w-1/2 mb-5'>
-            <SectionTitle>Keyword Stats</SectionTitle>
-            
-            <Card>
-                <CardBody>
-                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Keyword Opportunity</p>
-                <CTA text={"These are keywords that rank highly for a particular industry but have not been used on this site"} />
-                <p className="text-gray-600 dark:text-gray-400">
-                    Keyword 1
-                </p>
-                <p className="text-gray-600 dark:text-gray-400">
-                    Keyword 2
-                </p>
-                <p className="text-gray-600 dark:text-gray-400">
-                    Keyword 3
-                </p>
-                </CardBody>
-            </Card>
-        </div>
+          <div className='w-full lg:w-1/2 mb-5'>
+              <SectionTitle>Keyword Stats</SectionTitle>
+              
+              <Card>
+                  <CardBody>
+                  <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Keyword Opportunity</p>
+                  <CTA text={"These are keywords that rank highly for a particular industry but have not been used on this site"} />
+                  <p className="text-gray-600 dark:text-gray-400">
+                      Keyword 1
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400">
+                      Keyword 2
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400">
+                      Keyword 3
+                  </p>
+                  </CardBody>
+              </Card>
+          </div>
 
             <div className="w-full lg:w-1/2 mb-5">
                 <CompetitorAnanlysis />
             </div>
         </div>
 
-        <SiteStats />
+
+        <div className='block lg:flex gap-4 mb-5'>
+        <div className="mb-5 w-full lg:w-1/2">
+            <Card >
+                <CardBody>
+                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Backlinks</p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
+                </CardBody>
+            </Card>
+        </div>
+
+        <div className="mb-5 w-full lg:w-1/2">
+            <Card>
+                <CardBody>
+                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
+                </CardBody>
+            </Card>
+        </div>
+    
+    </div>
 
       
 

@@ -92,11 +92,12 @@ function Header() {
                 <Badge type="danger">13</Badge>
               </DropdownItem>
               <DropdownItem tag="a" href="#" className="justify-between">
-                <span>Sales</span>
+                <span>Notifcations</span>
                 <Badge type="danger">2</Badge>
               </DropdownItem>
-              <DropdownItem onClick={() => alert('Alerts!')}>
+              <DropdownItem href="#" className="justify-between" onClick={() => alert('Alerts!')}>
                 <span>Alerts</span>
+                <Badge type="danger">7</Badge>
               </DropdownItem>
             </Dropdown>
           </li>
@@ -110,7 +111,7 @@ function Header() {
             >
               <Avatar
                 className="align-middle"
-                src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+                src={require('../assets/img/DSC_0013.jpeg')}
                 alt=""
                 aria-hidden="true"
               />
