@@ -35,26 +35,51 @@ import KeywordsStats from '../components/KeywordsStats'
 import BeforeKeywordResult from './BeforeKeywordResult'
 
 function Keywords() {
-  const [page, setPage] = useState(1)
-  const [data, setData] = useState([])
+  // const [page, setPage] = useState(1)
+  // const [data, setData] = useState([])
 
-  // pagination setup
-  const resultsPerPage = 10
-  const totalResults = response.length
+  // // pagination setup
+  // const resultsPerPage = 10
+  // const totalResults = response.length
 
-  // pagination change control
-  function onPageChange(p) {
-    setPage(p)
-  }
-
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
-  }, [page])
-
+  // // pagination change control
+  // function onPageChange(p) {
+  //   setPage(p)
+  // }
 
   const [resultAvailable, setResultAvailable] = useState(false);
+
+  const [keyword, setKeyword] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [data, setData] = useState(null);
+
+  const [longtail, setLongtail] = useState(null);
+
+
+  const handleSubmit = () => {
+    setLoading(true);
+    fetch(`http://localhost:5000/keyword/${keyword}`)
+    .then(response => response.json())
+    .then(response => {
+      setData(response)
+
+        fetch(`http://localhost:5000/longtail/${keyword}`)
+        .then(response => response.json())
+        .then(response => {
+          setLongtail(response)
+          setLoading(false);
+          setResultAvailable(true);
+        })
+        .catch(err => {
+          console.log(err);
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+    
+  }
 
 
   return (
@@ -71,7 +96,7 @@ function Keywords() {
           </Label>
         <div className="block lg:flex mt-2 gap-1 w-full">
           <div className='w-full lg:w-3/4'>
-            <Input className="mt-1" placeholder="Seo" />
+            <Input className="mt-1" placeholder="Seo" onChange={(e)=> setKeyword(e.target.value)} />
           </div>
           <div className='w-1/2 flex gap-4'>
             <div className='w-3/4 lg:w-1/4'>
@@ -83,7 +108,10 @@ function Keywords() {
               </Select>
             </div>
             <div className='mt-1 w-1/4 lg:w-1/4'>
-              <Button>
+              <Button onClick={(e)=>{
+                e.preventDefault();
+                handleSubmit();
+              }}>
                 Search
               </Button>
             </div>
@@ -92,19 +120,21 @@ function Keywords() {
         </div>
       </div>
       
-
+              {
+                loading && <div className="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-2">Loading...</div>
+              }
       {
-        resultAvailable ? 
+        !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats />
+          <KeywordsStats data={data.result} longtail={longtail}/>
 
           <SocialMediaStats />
         </div>
 
         :
 
-        <BeforeKeywordResult />
+        !loading && <BeforeKeywordResult />
 
       }
       

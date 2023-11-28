@@ -14,7 +14,7 @@ function BeforeKeywordResult() {
             <div className='flex flex-wrap gap-10 justify-center'>
 
                 <Card className="p-4 w-full lg:w-1/4 bg-gray-100 dark:bg-cool-gray-900">
-                    <div className='text-purple-600'>Related Keywords</div>
+                    <div className='text-purple-600'>Related Searches</div>
                     <div className='mt-1 dark:text-white'>Essential terms assisting SEO by expanding content relevance and boosting search visibility across varied queries.</div>
                 </Card>
 
