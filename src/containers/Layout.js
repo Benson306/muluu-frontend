@@ -30,6 +30,7 @@ function Layout() {
           <Router>
             <Routes>
           <Suspense fallback={<ThemedSuspense />}>
+
               {routes.map((route, i) => {
                 return route.component ? (
                   <Route
@@ -40,12 +41,11 @@ function Layout() {
                   />
                 ) : null
               })}
-              <Route exact from="/app/*" to="/app/keyword" />
+              {/* <Route exact from="/app/*" to="/app/keyword" /> */}
               {/* <Route path="/app/*" Component={Page404} /> */}
           </Suspense>
           </Routes>
           </Router>
-          
         </Main>
       </div>
     </div>
