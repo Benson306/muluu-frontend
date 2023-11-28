@@ -17,43 +17,70 @@ function Login() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = () =>{ 
-    addToken("value");
-    navigate('/app/keyword');
+  const handleSubmit = () =>{    
 
-    // if(usernameNow == null || password == null ){
-    //   toast.error('Fill all required Fields', {
-    //     position: "top-right",
-    //     autoClose: 2000,
-    //     hideProgressBar: false,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //     theme: "colored",
-    //     });
-    //   return;
-    // }
+    if(usernameNow == null || password == null ){
+      toast.error('Fill all required Fields', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+      return;
+    }
 
-    // fetch(`${process.env.REACT_APP_API_URL}/user/login`,{
-    //   method:'POST',
-    //   headers: {
-    //     'Content-Type':'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     username: usernameNow,
-    //     password
-    //   })
-    // })
-    // .then(response => response.json())
-    // .then(response => {
-    //   console.log(response);
+    fetch(`${process.env.REACT_APP_API_URL}/user/login`,{
+      method:'POST',
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        username: usernameNow,
+        password
+      })
+    })
+    .then(response => {
+      if(response.status == 200){
+        toast.success('Success!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+          });
 
-    //   //navigate('/app/keyword');
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    // })
+          response.json().then((res)=>{
+            addEmail(res.profile.Email);
+            addUid(res.profile.ID);
+            addUsername(res.profile.Username);
+            addToken(res.token);
+
+            navigate('/app/keyword');
+          });
+
+      }else{
+        toast.error('Authentication Failed!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
 
   return (
