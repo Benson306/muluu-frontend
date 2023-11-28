@@ -23,10 +23,10 @@ function SidebarContent() {
           ) : (
             <li className="relative px-6 py-3" key={route.name}>
               <NavLink
-                exact="true"
                 to={route.path}
-                className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
-                activeclassname="text-gray-800 dark:text-gray-100"
+                className={({isActive, isPending})=>
+                isActive ? "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 text-gray-800 dark:text-gray-100" : "inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+              }
               >
                 <Routes>
                 <Route path={route.path} exact={route.exact} />
