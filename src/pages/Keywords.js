@@ -32,6 +32,7 @@ import {
 import SectionTitle from '../components/Typography/SectionTitle'
 import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
+import BeforeKeywordResult from './BeforeKeywordResult'
 
 function Keywords() {
   const [page, setPage] = useState(1)
@@ -51,6 +52,10 @@ function Keywords() {
   useEffect(() => {
     setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
   }, [page])
+
+
+  const [resultAvailable, setResultAvailable] = useState(false);
+
 
   return (
     <>
@@ -87,9 +92,22 @@ function Keywords() {
         </div>
       </div>
       
-      <KeywordsStats />
 
-      <SocialMediaStats />
+      {
+        resultAvailable ? 
+
+        <div>
+          <KeywordsStats />
+
+          <SocialMediaStats />
+        </div>
+
+        :
+
+        <BeforeKeywordResult />
+
+      }
+      
       
 
       {/* <CTA /> */}
