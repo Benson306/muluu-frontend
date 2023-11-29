@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 import ImageLight from '../assets/img/create-account-office.jpeg'
 import ImageDark from '../assets/img/create-account-office-dark.jpeg'
@@ -7,20 +7,23 @@ import { GithubIcon, TwitterIcon } from '../icons'
 import { Input, Label, Select, Button } from '@windmill/react-ui'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../context/AuthContext'
 
 function Login() {
 
-  const [email, setEmail] = useState(null);
+  const [usrEmail, setUsrEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [gender, setGender] = useState(0);
   const [confirmPassword, setConfirmPassword] = useState(null);
   const [birthDate, setBirthDate] = useState(null);
   const [fullName, setFullName] = useState(null);
 
-  //const navigate = useNavigate();
+  const { token, uid, username, email, addEmail, addToken, addUsername, addUid } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
-    if(email == null || password == null || gender == 0 || confirmPassword == null || birthDate == null || fullName == null){
+    if(usrEmail == null || password == null || gender == 0 || confirmPassword == null || birthDate == null || fullName == null){
       toast.error('Fill all required Fields', {
         position: "top-right",
         autoClose: 2000,
@@ -55,17 +58,47 @@ function Login() {
       },
       body: JSON.stringify({
         full_name: fullName,
-        email,
+        email:usrEmail,
         password,
         birth_date: birthDate,
         gender: Number(gender)
       })
     })
-    .then(response => response.json())
     .then(response => {
       console.log(response);
+      if(response.status == 200){
+        toast.success('Success!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored"
+          });
 
-      //navigate('/app/keyword');
+          response.json().then((res)=>{
+            addEmail(res.profile.Email);
+            addUid(res.profile.ID);
+            addUsername(res.profile.Username);
+            addToken(res.token);
+
+            navigate('/app/keyword');
+          });
+
+      }else{
+        toast.error('Authentication Failed!', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+    }
     })
     .catch(err => {
       console.log(err);
@@ -105,7 +138,7 @@ function Login() {
 
               <Label className="mt-4">
                 <span>Email*</span>
-                <Input className="mt-1" type="email" placeholder="john@doe.com" onChange={e => setEmail(e.target.value)} />
+                <Input className="mt-1" type="email" placeholder="john@doe.com" onChange={e => setUsrEmail(e.target.value)} />
               </Label>
 
               <Label className="mt-4">
