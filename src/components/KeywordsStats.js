@@ -4,7 +4,7 @@ import {
   } from '@windmill/react-ui'
 import SectionTitle from '../components/Typography/SectionTitle'
 
-function KeywordsStats({ data, longtail }) {
+function KeywordsStats({ data }) {
     
   return (
     <div>
@@ -42,14 +42,14 @@ function KeywordsStats({ data, longtail }) {
         </CardBody>
     </Card>
     
-    <Card className="mb-5 w-full lg:w-1/2">
+    {/* <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
         { longtail.map( (rs, index) => (
             <p key={index} className="text-gray-600 dark:text-gray-400">- {rs}</p>
         ))} 
         </CardBody>
-    </Card>
+    </Card> */}
 
     
     </div>

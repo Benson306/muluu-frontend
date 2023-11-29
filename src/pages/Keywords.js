@@ -58,21 +58,32 @@ function Keywords() {
 
   const handleSubmit = () => {
     setLoading(true);
-    fetch(`http://localhost:5000/keyword/${keyword}`)
+    fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        keyword
+      })
+    })
     .then(response => response.json())
     .then(response => {
-      setData(response)
+      console.log(response)
+      setData(response);
+      setLoading(false);
+      setResultAvailable(true);
 
-        fetch(`http://localhost:5000/longtail/${keyword}`)
-        .then(response => response.json())
-        .then(response => {
-          setLongtail(response)
-          setLoading(false);
-          setResultAvailable(true);
-        })
-        .catch(err => {
-          console.log(err);
-      })
+      //   fetch(`${process.env.REACT_APP_API_URL}/longtail/${keyword}`)
+      //   .then(response => response.json())
+      //   .then(response => {
+      //     setLongtail(response)
+      //     setLoading(false);
+      //     setResultAvailable(true);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      // })
     })
     .catch(err => {
       console.log(err);
@@ -127,8 +138,8 @@ function Keywords() {
         !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats data={data.result} longtail={longtail}/>
-
+          <KeywordsStats data={data.searchResult.result} />
+          {/* longtail={longtail} */}
           <SocialMediaStats />
         </div>
 
