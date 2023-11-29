@@ -53,8 +53,50 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const isEmailSet = async () => {
+        try{
+            let email = localStorage.getItem('email');
+
+            if(email){
+                setEmail(email);
+            }
+        }
+        catch(e){
+            console.log('error setting email');
+        }
+    }
+
+    const isUsernameSet = async () => {
+        try{
+            let username = localStorage.getItem('username');
+
+            if(username){
+                setUsername(username);
+            }
+        }
+        catch(e){
+            console.log('error setting username');
+        }
+    }
+
+    const isUidSet = async () => {
+        try{
+            let uid = localStorage.getItem('uid');
+
+            if(uid){
+                setUid(uid);
+            }
+        }
+        catch(e){
+            console.log('error setting uid');
+        }
+    }
+
     useEffect(()=>{
         isTokenSet();
+        isUsernameSet();
+        isUidSet();
+        isUsernameSet();
     },[])
 
     return (

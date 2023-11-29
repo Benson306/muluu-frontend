@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ReactLoading from 'react-loading';
 
 import CTA from '../components/CTA'
 import InfoCard from '../components/Cards/InfoCard'
@@ -69,7 +70,6 @@ function Keywords() {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response)
       setData(response);
       setLoading(false);
       setResultAvailable(true);
@@ -99,7 +99,7 @@ function Keywords() {
 
       <p className="text-gray-600 dark:text-gray-400 mb-5">
       Explore the essence of keyword research with our comprehensive guide. Discover how strategic keyword analysis can elevate your online visibility and drive targeted traffic. 
-            </p>
+      </p>
 
       <div className="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-2">
         <Label className="mt-4">
@@ -107,7 +107,7 @@ function Keywords() {
           </Label>
         <div className="block lg:flex mt-2 gap-1 w-full">
           <div className='w-full lg:w-3/4'>
-            <Input className="mt-1" placeholder="Seo" onChange={(e)=> setKeyword(e.target.value)} />
+            <Input className="mt-1" placeholder="Enter a keyword...." onChange={(e)=> setKeyword(e.target.value)} />
           </div>
           <div className='w-1/2 flex gap-4'>
             <div className='w-3/4 lg:w-1/4'>
@@ -130,16 +130,18 @@ function Keywords() {
         
         </div>
       </div>
-      
-              {
-                loading && <div className="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-2">Loading...</div>
-              }
+
+      {
+        loading && <div className='flex justify-center mt-5'>
+          <ReactLoading type={"spin"} color={"#805ad5"} height={'5%'} width={'5%'} />
+        </div>
+      }
+
       {
         !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats data={data.searchResult.result} />
-          {/* longtail={longtail} */}
+          <KeywordsStats data={data.searchResult.result} topLinks={data.topLinks} topRelatedKeywords={[...new Set(data.topRelatedKeywords)]}/>
           <SocialMediaStats />
         </div>
 
