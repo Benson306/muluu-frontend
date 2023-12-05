@@ -103,7 +103,7 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
         {
-            !loading && type == "string" && <p className="text-purple-600">{`No longtail keyword assocated with ${keyword}`}</p>
+            !loading && type == "string" && <p className="text-red-500">{`No longtail keyword assocated with ${keyword}`}</p>
         }
         { !loading && type == "array" && longtail.map( (rs, index) => (
             <p key={index} className="text-gray-600 dark:text-gray-400">- {rs}</p>
