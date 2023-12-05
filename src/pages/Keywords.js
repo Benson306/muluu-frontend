@@ -54,9 +54,6 @@ function Keywords() {
   const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
 
-  const [longtail, setLongtail] = useState(null);
-
-
   const handleSubmit = () => {
     setLoading(true);
     fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
@@ -73,17 +70,6 @@ function Keywords() {
       setData(response);
       setLoading(false);
       setResultAvailable(true);
-
-      //   fetch(`${process.env.REACT_APP_API_URL}/longtail/${keyword}`)
-      //   .then(response => response.json())
-      //   .then(response => {
-      //     setLongtail(response)
-      //     setLoading(false);
-      //     setResultAvailable(true);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      // })
     })
     .catch(err => {
       console.log(err);
@@ -141,8 +127,8 @@ function Keywords() {
         !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats data={data.searchResult.result} topLinks={data.topLinks} topRelatedKeywords={[...new Set(data.topRelatedKeywords)]}/>
-          <SocialMediaStats />
+          <KeywordsStats keyword={keyword} data={data.searchResult.result} topLinks={data.topLinks} topRelatedKeywords={[...new Set(data.topRelatedKeywords)]}/>
+          <SocialMediaStats keyword={keyword} />
         </div>
 
         :

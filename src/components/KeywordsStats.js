@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Input, HelperText, Label, Select, Textarea, Button, Card, CardBody
   } from '@windmill/react-ui'
 import SectionTitle from '../components/Typography/SectionTitle'
 import { Link } from 'react-router-dom'
 
-function KeywordsStats({ data, topLinks, topRelatedKeywords }) {
+function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
+
+    const [socails, setSocials] = useState(null);
+    const [longtail, setLongtail] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [type, setType]= useState(null);
+
+    useEffect(()=>{
+        fetch(`http://localhost:3000/longtail/${keyword}`)
+        .then(response => response.json())
+        .then(response => {
+
+            if (typeof response === 'string') {
+                setType("string")
+            } else {
+                setType("array");
+            }
+          setLongtail(response)
+          setLoading(false);
+        })
+        .catch(err => {
+          console.log(err);
+      })
+    },[])
 
     let uniqueObject = {};
     let uniqueTopLinks = topLinks.filter((obj) => {
@@ -31,7 +54,7 @@ function KeywordsStats({ data, topLinks, topRelatedKeywords }) {
 
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
-        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Top Related Searches</p>
+        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Top Google Related Searches</p>
         { topRelatedKeywords.slice(0,8).map( (rs, index) => (
             <p key={index} className="text-sm text-gray-600 dark:text-gray-400">{rs}</p>
         ))} 
@@ -65,25 +88,29 @@ function KeywordsStats({ data, topLinks, topRelatedKeywords }) {
     </div>
 
     <div className='block lg:flex gap-4 mb-5'>
-    <Card className="mb-5 w-full lg:w-1/2">
+    {/* <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
-        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Short tail keywords</p>
+        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail keywords</p>
         <p className="text-gray-600 dark:text-gray-400">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga, cum commodi a omnis
             numquam quod? Totam exercitationem quos hic ipsam at qui cum numquam, sed amet
             ratione! Ratione, nihil dolorum.
         </p>
         </CardBody>
-    </Card>
+    </Card> */}
     
-    {/* <Card className="mb-5 w-full lg:w-1/2">
+    <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
-        { longtail.map( (rs, index) => (
+        {
+            !loading && type == "string" && <p className="text-purple-600">{`No longtail keyword assocated with ${keyword}`}</p>
+        }
+        { !loading && type == "array" && longtail.map( (rs, index) => (
             <p key={index} className="text-gray-600 dark:text-gray-400">- {rs}</p>
-        ))} 
+        ))
+        } 
         </CardBody>
-    </Card> */}
+    </Card>
 
     
     </div>
