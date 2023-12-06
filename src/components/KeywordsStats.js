@@ -31,11 +31,12 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
     },[])
 
     let uniqueObject = {};
-    let uniqueTopLinks = topLinks.filter((obj) => {
+    let uniqueTopLinks = topLinks && topLinks.length > 0  ? topLinks.filter((obj) => {
     return uniqueObject.hasOwnProperty(obj.title)
         ? false
         : (uniqueObject[obj.title] = true);
-    });
+    }) :
+    null
 
   return (
     <div>
@@ -45,9 +46,12 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Related Searches</p>
-        { data.relatedSearches.map( (rs, index) => (
+        { data.relatedSearches ? data.relatedSearches.map( (rs, index) => (
             <p key={index} className="text-sm text-gray-600 dark:text-gray-400">{rs.query}</p>
-        ))} 
+        ))
+        :
+        <p className='text-red-500'>No related Searches</p>
+        } 
         </CardBody>
     </Card>
 
@@ -55,9 +59,12 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Top Google Related Searches</p>
-        { topRelatedKeywords.slice(0,8).map( (rs, index) => (
+        { topRelatedKeywords && topRelatedKeywords.length > 0 ? topRelatedKeywords.slice(0,8).map( (rs, index) => (
             <p key={index} className="text-sm text-gray-600 dark:text-gray-400">{rs}</p>
-        ))} 
+        ))
+        :
+        <p className='text-red-500'>No Top google Related Searches</p>
+        } 
         </CardBody>
     </Card>
     </div>
@@ -66,23 +73,28 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Organic Search</p>
-        { data.organic.slice(0,3).map( (rs, index) => (
+        { data.organic && data.organic.length > 0 ? data.organic.slice(0,3).map( (rs, index) => (
             <div key={index} className='border border-gray-300 p-2 mb-1'>
                 <Link key={index} to={rs.link} target='_blank' className='text-sm text-blue-500 hover:underline'>{rs.title}</Link>
                 <div className='text-sm text-gray-600 dark:text-gray-400'>{rs.snippet}</div>
             </div>
-        ))} 
+        )):
+        
+        <p className='text-red-500'>No Organic Search Results</p>
+        } 
         </CardBody>
     </Card>
 
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Top Links</p>
-        { uniqueTopLinks.map( (rs, index) => (
+        { uniqueTopLinks && uniqueTopLinks.length > 0 ? uniqueTopLinks.map( (rs, index) => (
             <div key={index}>
                 <Link key={index} to={rs.link} target='_blank' className='text-sm text-blue-500 hover:underline'>{rs.title}</Link>
             </div>
-        ))} 
+        )):
+        
+        <p className='text-red-500'>No Top Link Results</p>} 
         </CardBody>
     </Card>
     </div>

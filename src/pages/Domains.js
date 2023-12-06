@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ReactLoading from 'react-loading';
 
 import CTA from '../components/CTA'
 import InfoCard from '../components/Cards/InfoCard'
@@ -34,28 +35,81 @@ import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
 import CompetitorAnanlysis from '../components/CompetitorAnanlysis'
 import SiteStats from '../components/SiteStats'
+import BeforeDomainResults from './BeforeDomainResults';
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Domains() {
-  const [page, setPage] = useState(1)
+  // const [page, setPage] = useState(1)
+
+  // // pagination setup
+  // const resultsPerPage = 10
+  // const totalResults = response.length
+
+  // // pagination change control
+  // function onPageChange(p) {
+  //   setPage(p)
+  // }
+
+  // // on page change, load new sliced data
+  // // here you would make another server request for new data
+  // useEffect(() => {
+  //   setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
+  // }, [page])
+
+  const [resultAvailable, setResultAvailable] = useState(false);
+
+  const [url, setUrl] = useState(null);
+  const [industry, setIndustry] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [keywordOpportunity, setKeywordOpportunity] = useState(null);
   const [data, setData] = useState([])
 
-  // pagination setup
-  const resultsPerPage = 10
-  const totalResults = response.length
 
-  // pagination change control
-  function onPageChange(p) {
-    setPage(p)
+  const handleSubmit = () => {
+
+    if(url == null || industry == null){
+        toast.error('Fill all required Fields: Url & Select industry', {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      return;
+    }
+
+    setLoading(true);
+    fetch(`http://localhost:3000/keyword_opportunity`,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        url,
+        industry
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      setKeywordOpportunity(response);
+      setLoading(false);
+      setResultAvailable(true);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+    
   }
-
-  // on page change, load new sliced data
-  // here you would make another server request for new data
-  useEffect(() => {
-    setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
-  }, [page])
 
   return (
     <>
+    <ToastContainer />
       <PageTitle>Domain Analysis</PageTitle>
 
       <p className="text-gray-600 dark:text-gray-400 mb-5">
@@ -69,14 +123,15 @@ function Domains() {
             <Label className="mt-4">
                 <span>Enter Url</span>
             </Label>
-            <Input className="mt-1" placeholder="https://muluumark.com" />
+            <Input className="mt-1" onChange={e => setUrl(e.target.value)} placeholder="https://muluumark.com" />
           </div>
           <div className='w-1/2 flex gap-4'>
             <div className='w-3/4 lg:w-1/4'>
                 <Label className="mt-4">
                     <span>Select Industry</span>
                 </Label>
-              <Select className="mt-1">
+              <Select className="mt-1" onChange={e => setIndustry(e.target.value)}>
+              <option value={null}></option>
                 <option value={"Finance"}>Finance</option>
                 <option value={"Health"}>Health</option>
                 <option value={"Arts and Entertainment"}>Arts and Entertainment</option>
@@ -93,7 +148,10 @@ function Domains() {
             <Label className="mt-4">
                 <span>  .</span>
             </Label>
-              <Button>
+              <Button onClick={(e)=>{
+                e.preventDefault();
+                handleSubmit();
+              }}>
                 Search
               </Button>
             </div>
@@ -102,167 +160,82 @@ function Domains() {
         </div>
       </div>
 
+      {
+        loading && <div className='flex justify-center mt-5'>
+          <ReactLoading type={"spin"} color={"#805ad5"} height={'5%'} width={'5%'} />
+        </div>
+      }
 
-      <SiteStats />
-      
+    { !loading && resultAvailable ? 
     
-      <div className='block lg:flex gap-4 mb-5'>
+    <div>
+      <SiteStats url={url} />
+        
+      
+        <div className='block lg:flex gap-4 mb-5'>
 
-          <div className='w-full lg:w-1/2 mb-5'>
-              <SectionTitle>Keyword Stats</SectionTitle>
-              
-              <Card>
-                  <CardBody>
-                  <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Keyword Opportunity</p>
-                  <CTA text={"These are keywords that rank highly for a particular industry but have not been used on this site"} />
-                  <p className="text-gray-600 dark:text-gray-400">
-                      Keyword 1
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400">
-                      Keyword 2
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400">
-                      Keyword 3
-                  </p>
-                  </CardBody>
-              </Card>
+            <div className='w-full lg:w-1/2 mb-5'>
+                <SectionTitle>Keyword Stats</SectionTitle>
+                
+                <Card>
+                    <CardBody>
+                    <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Keyword Opportunity</p>
+                    {/* <CTA text={"These are keywords that rank highly for a particular industry but have not been used on this site"} /> */}
+                    { keywordOpportunity.keywords && keywordOpportunity.keywords.length > 0 ? keywordOpportunity.keywords.slice(0,9).map((keyword)=>(
+                      <p key={keyword} className="text-gray-600 dark:text-gray-400">
+                        {keyword}
+                      </p> 
+                    )) : keywordOpportunity.message &&
+                    <p className="text-red-500 dark:text-red-400">
+                      No Keyword opportunities found
+                    </p> }
+                   
+                    </CardBody>
+                </Card>
+            </div>
+
+              <div className="w-full lg:w-1/2 mb-5">
+                  <CompetitorAnanlysis />
+              </div>
           </div>
 
-            <div className="w-full lg:w-1/2 mb-5">
-                <CompetitorAnanlysis />
-            </div>
-        </div>
 
+          <div className='block lg:flex gap-4 mb-5'>
+              <div className="mb-5 w-full lg:w-1/2">
+                  <Card >
+                      <CardBody>
+                      <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Backlinks</p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
+                      </CardBody>
+                  </Card>
+              </div>
 
-        <div className='block lg:flex gap-4 mb-5'>
-        <div className="mb-5 w-full lg:w-1/2">
-            <Card >
-                <CardBody>
-                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Backlinks</p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
-                </CardBody>
-            </Card>
-        </div>
+              <div className="mb-5 w-full lg:w-1/2">
+                  <Card>
+                      <CardBody>
+                      <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
+                      <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
+                      </CardBody>
+                  </Card>
+              </div>
+          
+          </div>
 
-        <div className="mb-5 w-full lg:w-1/2">
-            <Card>
-                <CardBody>
-                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
-                </CardBody>
-            </Card>
-        </div>
+    </div> :
+    !loading && <BeforeDomainResults />
     
-    </div>
-
+    }
       
 
-      {/* <CTA /> */}
-
-      {/* <!-- Cards --> */}
-      {/* <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Total clients" value="6389">
-          <RoundIcon
-            icon={PeopleIcon}
-            iconColorClass="text-orange-500 dark:text-orange-100"
-            bgColorClass="bg-orange-100 dark:bg-orange-500"
-            className="mr-4"
-          />
-        </InfoCard>
-
-        <InfoCard title="Account balance" value="$ 46,760.89">
-          <RoundIcon
-            icon={MoneyIcon}
-            iconColorClass="text-green-500 dark:text-green-100"
-            bgColorClass="bg-green-100 dark:bg-green-500"
-            className="mr-4"
-          />
-        </InfoCard>
-
-        <InfoCard title="New sales" value="376">
-          <RoundIcon
-            icon={CartIcon}
-            iconColorClass="text-blue-500 dark:text-blue-100"
-            bgColorClass="bg-blue-100 dark:bg-blue-500"
-            className="mr-4"
-          />
-        </InfoCard>
-
-        <InfoCard title="Pending contacts" value="35">
-          <RoundIcon
-            icon={ChatIcon}
-            iconColorClass="text-teal-500 dark:text-teal-100"
-            bgColorClass="bg-teal-100 dark:bg-teal-500"
-            className="mr-4"
-          />
-        </InfoCard>
-      </div>
-
-      <TableContainer>
-        <Table>
-          <TableHeader>
-            <tr>
-              <TableCell>Client</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Date</TableCell>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {data.map((user, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar className="hidden mr-3 md:block" src={user.avatar} alt="User image" />
-                    <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{user.job}</p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">$ {user.amount}</span>
-                </TableCell>
-                <TableCell>
-                  <Badge type={user.status}>{user.status}</Badge>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TableFooter>
-          <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            label="Table navigation"
-            onChange={onPageChange}
-          />
-        </TableFooter>
-      </TableContainer>
-
-      <PageTitle>Charts</PageTitle>
-      <div className="grid gap-6 mb-8 md:grid-cols-2">
-        <ChartCard title="Revenue">
-          <Doughnut {...doughnutOptions} />
-          <ChartLegend legends={doughnutLegends} />
-        </ChartCard>
-
-        <ChartCard title="Traffic">
-          <Line {...lineOptions} />
-          <ChartLegend legends={lineLegends} />
-        </ChartCard>
-      </div> */}
+  
     </>
   )
 }

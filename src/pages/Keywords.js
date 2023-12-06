@@ -34,6 +34,8 @@ import SectionTitle from '../components/Typography/SectionTitle'
 import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
 import BeforeKeywordResult from './BeforeKeywordResult'
+import { ToastContainer,toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Keywords() {
   // const [page, setPage] = useState(1)
@@ -55,6 +57,20 @@ function Keywords() {
   const [data, setData] = useState(null);
 
   const handleSubmit = () => {
+    if(keyword == null){
+      toast.error('Keyword is required', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+      return;
+    }
+
     setLoading(true);
     fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
       method:'POST',
@@ -81,6 +97,7 @@ function Keywords() {
 
   return (
     <>
+    <ToastContainer />
       <PageTitle>Keyword Research</PageTitle>
 
       <p className="text-gray-600 dark:text-gray-400 mb-5">
@@ -98,6 +115,7 @@ function Keywords() {
           <div className='w-1/2 flex gap-4'>
             <div className='w-3/4 lg:w-1/4'>
               <Select className="mt-1">
+                <option></option>
                 <option>Kenya</option>
                 <option>Uganda</option>
                 <option>Tanzania</option>
@@ -127,7 +145,7 @@ function Keywords() {
         !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats keyword={keyword} data={data.searchResult.result} topLinks={data.topLinks} topRelatedKeywords={[...new Set(data.topRelatedKeywords)]}/>
+          <KeywordsStats keyword={keyword} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
           <SocialMediaStats keyword={keyword} />
         </div>
 
