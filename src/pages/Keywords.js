@@ -36,6 +36,7 @@ import KeywordsStats from '../components/KeywordsStats'
 import BeforeKeywordResult from './BeforeKeywordResult'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import NewSocialMediaStats from '../components/NewSocialMediaStats';
 
 function Keywords() {
   // const [page, setPage] = useState(1)
@@ -53,12 +54,27 @@ function Keywords() {
   const [resultAvailable, setResultAvailable] = useState(false);
 
   const [keyword, setKeyword] = useState(null);
+  const [country, setCountry] = useState('kenya');
   const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
 
   const handleSubmit = () => {
     if(keyword == null){
       toast.error('Keyword is required', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+      return;
+    }
+
+    if(country == null){
+      toast.error('Select A Country', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -114,12 +130,11 @@ function Keywords() {
           </div>
           <div className='w-1/2 flex gap-4'>
             <div className='w-3/4 lg:w-1/4'>
-              <Select className="mt-1">
-                <option></option>
-                <option>Kenya</option>
-                <option>Uganda</option>
-                <option>Tanzania</option>
-                <option>Ethiopia</option>
+              <Select className="mt-1" onChange={(e)=> setCountry(e.target.value)}>
+                <option value="kenya">Kenya</option>
+                <option value="uganda">Uganda</option>
+                <option value="tanzania">Tanzania</option>
+                <option valu="ethiopia">Ethiopia</option>
               </Select>
             </div>
             <div className='mt-1 w-1/4 lg:w-1/4'>
@@ -146,7 +161,8 @@ function Keywords() {
 
         <div>
           <KeywordsStats keyword={keyword} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
-          <SocialMediaStats keyword={keyword} />
+          {/* <SocialMediaStats keyword={keyword} /> */}
+          <NewSocialMediaStats keyword={keyword} country={country}/>
         </div>
 
         :

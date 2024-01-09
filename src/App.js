@@ -49,6 +49,7 @@ function App() {
                     <Header />
                     <Main>
                       <Routes>
+                        <Route path='/' Component={Keywords} />
                         <Route path='/app/keyword' Component={Keywords} />
                         <Route path='/app/domain' Component={Domains} />
                       </Routes>
