@@ -55,12 +55,27 @@ function Keywords() {
 
   const [keyword, setKeyword] = useState(null);
   const [country, setCountry] = useState('kenya');
+  const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
 
   const handleSubmit = () => {
     if(keyword == null){
       toast.error('Keyword is required', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        });
+      return;
+    }
+
+    if(domain == null){
+      toast.error('Domain is required', {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -88,6 +103,7 @@ function Keywords() {
     }
 
     setLoading(true);
+
     fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
       method:'POST',
       headers:{
@@ -107,6 +123,31 @@ function Keywords() {
       console.log(err);
     })
 
+    let countryAbbreaviation = 'ke';
+
+    country == 'kenya' ? countryAbbreaviation = 'ke' 
+    : 
+    country == 'uganda' ? countryAbbreaviation ='ug' 
+    : 
+    country == 'tanzania' ? countryAbbreaviation = 'tz'
+    :
+    country == 'ethiopia' ? countryAbbreaviation = 'et'
+    :
+    countryAbbreaviation = 'ke'
+
+    // fetch(`http://localhost:3000/keyword/${keyword}/${countryAbbreaviation}`)
+    // .then(response => response.json())
+    // .then(response => {
+    //   console.log(response);
+    //   setData(response);
+    //   setLoading(false);
+    //   setResultAvailable(true);
+    // })
+    // .catch(err => {
+    //   console.log(err);
+    // })
+
+
     
   }
 
@@ -121,15 +162,25 @@ function Keywords() {
       </p>
 
       <div className="px-4 py-4 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800 mt-2">
-        <Label className="mt-4">
-            <span>Enter a keyword</span>
-          </Label>
-        <div className="block lg:flex mt-2 gap-1 w-full">
-          <div className='w-full lg:w-3/4'>
+        
+        <div className="block lg:flex items-center mt-2 gap-1 w-full">
+          <div className='w-full lg:w-1/3'>
+            <Label className="">
+              <span>Enter a keyword</span>
+            </Label>
             <Input className="mt-1" placeholder="Enter a keyword...." onChange={(e)=> setKeyword(e.target.value)} />
           </div>
-          <div className='w-1/2 flex gap-4'>
-            <div className='w-3/4 lg:w-1/4'>
+          <div className='w-full lg:w-1/3 mt-1 lg:mt-0'>
+            <Label className="">
+              <span>Enter a domain</span>
+            </Label>
+            <Input className="mt-1" placeholder="Enter a domain...." onChange={(e)=> setDomain(e.target.value)} />
+          </div>
+          <div className='w-full lg:w-1/3 flex items-center gap-4 mt-1 lg:mt-0'>
+            <div className='w-3/4 lg:w-1/2'>
+              <Label className="">
+                <span>Select a country</span>
+              </Label>
               <Select className="mt-1" onChange={(e)=> setCountry(e.target.value)}>
                 <option value="kenya">Kenya</option>
                 <option value="uganda">Uganda</option>
@@ -137,7 +188,7 @@ function Keywords() {
                 <option valu="ethiopia">Ethiopia</option>
               </Select>
             </div>
-            <div className='mt-1 w-1/4 lg:w-1/4'>
+            <div className='mt-6 w-1/4 lg:w-1/4'>
               <Button onClick={(e)=>{
                 e.preventDefault();
                 handleSubmit();
@@ -160,7 +211,7 @@ function Keywords() {
         !loading && resultAvailable ? 
 
         <div>
-          <KeywordsStats keyword={keyword} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
+          <KeywordsStats keyword={keyword} domain={domain} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
           {/* <SocialMediaStats keyword={keyword} /> */}
           <NewSocialMediaStats keyword={keyword} country={country}/>
         </div>

@@ -52,9 +52,9 @@ function NewSocialMediaStats({ keyword, country }) {
             <CardBody>
             <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Popular Accounts</p>
 
-            <div className='flex gap-4 w-full'>
+            <div className='block lg:flex gap-4 w-full'>
 
-                <div className='mb-3 w-1/2'>
+                <div className='mb-3 w-full lg:w-1/2'>
                     <div className='mb-4 bg-gray-100 dark:bg-transparent  p-2 rounded-lg'>
                         <p className="text-black dark:text-gray-400 mb-2">
                             Instagram
@@ -84,7 +84,7 @@ function NewSocialMediaStats({ keyword, country }) {
                         }
 
                         {
-                            !loading && socials.length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
+                            !loading && socials.length > 0 && socials.filter( social => social.socialType === "INST").length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
                         }
                     </div>
 
@@ -117,13 +117,13 @@ function NewSocialMediaStats({ keyword, country }) {
                         }
 
                         {
-                            !loading && socials.length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
+                            !loading && socials.length > 0 && socials.filter( social => social.socialType === "FB").length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
                         }
                     </div>
                     
                 </div>
 
-                <div className='mb-3 w-1/2'>
+                <div className='mb-3 w-full lg:w-1/2'>
                     <div className='mb-4 bg-gray-100 dark:bg-transparent  p-2 rounded-lg'>
                         <p className="text-black dark:text-gray-400 mb-2">
                             Twitter
@@ -153,7 +153,7 @@ function NewSocialMediaStats({ keyword, country }) {
                         }
 
                         {
-                            !loading && socials.length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
+                            !loading && socials.length > 0 && socials.filter( social => social.socialType === "TW").length < 1 && <div className='text-red-500 ml-2'>No Users found.</div>
                         }
                     </div>
 

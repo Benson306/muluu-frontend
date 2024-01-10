@@ -5,10 +5,11 @@ import {
 import SectionTitle from '../components/Typography/SectionTitle'
 import { Link } from 'react-router-dom'
 
-function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
+function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) {
 
     const [socails, setSocials] = useState(null);
     const [longtail, setLongtail] = useState(null);
+    const [serpData, setSerpData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [type, setType]= useState(null);
 
@@ -22,8 +23,25 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
             } else {
                 setType("array");
             }
-          setLongtail(response)
-          setLoading(false);
+
+            setLongtail(response)
+
+            fetch(`${process.env.REACT_APP_API_URL}/user/serp-search`,{
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    domain,
+                    keyword
+                })
+            })
+            .then((newResponse)=> newResponse.json())
+            .then((newResponse)=>{
+                setLoading(false);
+                setSerpData(newResponse.result.organic);
+            })
+            .catch(err =>{ console.log(err) })
         })
         .catch(err => {
           console.log(err);
@@ -115,12 +133,29 @@ function KeywordsStats({ keyword, data, topLinks, topRelatedKeywords }) {
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
         {
-            !loading && type == "string" && <p className="text-red-500">{`No longtail keyword assocated with ${keyword}`}</p>
+            !loading && type == "string" && <p className="text-red-500">{`No longtail keywords assocated with ${keyword}`}</p>
         }
         { !loading && type == "array" && longtail.map( (rs, index) => (
             <p key={index} className="text-gray-600 dark:text-gray-400">- {rs}</p>
         ))
         } 
+        </CardBody>
+    </Card>
+
+    <Card className="mb-5 w-full lg:w-1/2">
+        <CardBody>
+        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">SERP Position</p>
+        { 
+            serpData && serpData.length > 0 ? serpData.map( (rs, index) => (
+                <div key={index} className='border border-gray-300 p-2 mb-1'>
+                    <Link key={index} to={rs.link} target='_blank' className='text-sm text-blue-500 hover:underline'>{rs.title}</Link>
+                    <div className='text-sm text-gray-600 dark:text-gray-400'>{rs.snippet}</div>
+                    <div className='text-xs bg-purple-600 text-white p-1 rounded-lg px-2 mt-1 w-1/6'>Position: {rs.position}</div>
+                </div>
+            )):
+            
+            <p className='text-red-500'>No SERP Results for this keyword</p>
+        }
         </CardBody>
     </Card>
 
