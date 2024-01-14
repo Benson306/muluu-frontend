@@ -83,7 +83,7 @@ function Domains() {
     }
 
     setLoading(true);
-    fetch(`http://localhost:3000/keyword_opportunity`,{
+    fetch(`${process.env.REACT_APP_API_URL}/keyword_opportunity`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json'

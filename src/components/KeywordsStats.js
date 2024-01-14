@@ -14,7 +14,15 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
     const [type, setType]= useState(null);
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/longtail/${keyword}`)
+        fetch(`${process.env.REACT_APP_API_URL}/longtail`,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                keyword
+            })
+        })
         .then(response => response.json())
         .then(response => {
 

@@ -135,7 +135,7 @@ function Keywords() {
     :
     countryAbbreaviation = 'ke'
 
-    // fetch(`http://localhost:3000/keyword/${keyword}/${countryAbbreaviation}`)
+    // fetch(`${process.env.REACT_APP_API_URL}/keyword/${keyword}/${countryAbbreaviation}`)
     // .then(response => response.json())
     // .then(response => {
     //   console.log(response);

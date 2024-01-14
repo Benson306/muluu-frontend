@@ -12,15 +12,15 @@ function SocialMediaStats({ keyword }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/socials`,{
-            mode: 'cors',
+        fetch(`${process.env.REACT_APP_API_URL}/socials`,{
+            //mode: 'cors',
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                keyword: keyword,
-                count: 5
+                keyword: keyword
+                //count: 5
             })
         })
         .then(response => response.json())

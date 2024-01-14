@@ -12,7 +12,7 @@ function NewSocialMediaStats({ keyword, country }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
-        fetch(`http://localhost:3000/new_socials`,{
+        fetch(`${process.env.REACT_APP_API_URL}/new_socials`,{
             mode: 'cors',
             method: 'POST',
             headers: {
