@@ -83,7 +83,7 @@ function Domains() {
     }
 
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API_URL}/keyword_opportunity`,{
+    fetch(`${process.env.REACT_APP_API_URL}/user/keyword_opportunity`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json'

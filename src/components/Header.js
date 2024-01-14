@@ -118,7 +118,7 @@ function Header() {
             >
               <Avatar
                 className="align-middle"
-                src={require('../assets/img/DSC_0013.jpeg')}
+                src={require('../assets/img/profile.png')}
                 alt=""
                 aria-hidden="true"
               />
