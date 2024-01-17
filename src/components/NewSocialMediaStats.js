@@ -13,19 +13,18 @@ function NewSocialMediaStats({ keyword, country }) {
 
     useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/user/new-socials`,{
-            mode: 'cors',
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                keyword: keyword,
-                country: country
+                keyword,
+                country
             })
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response.result)
+            console.log(response);
             setSocials(response.result)
             setLoading(false);
         })

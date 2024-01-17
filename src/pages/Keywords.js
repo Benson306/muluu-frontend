@@ -104,13 +104,26 @@ function Keywords() {
 
     setLoading(true);
 
+    let countryAbbreaviation = 'ke';
+
+    country == 'kenya' ? countryAbbreaviation = 'ke' 
+    : 
+    country == 'uganda' ? countryAbbreaviation ='ug' 
+    : 
+    country == 'tanzania' ? countryAbbreaviation = 'tz'
+    :
+    country == 'ethiopia' ? countryAbbreaviation = 'et'
+    :
+    countryAbbreaviation = 'ke'
+
     fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json'
       },
       body: JSON.stringify({
-        keyword
+        keyword,
+        country: countryAbbreaviation
       })
     })
     .then(response => response.json())
@@ -123,17 +136,7 @@ function Keywords() {
       console.log(err);
     })
 
-    let countryAbbreaviation = 'ke';
-
-    country == 'kenya' ? countryAbbreaviation = 'ke' 
-    : 
-    country == 'uganda' ? countryAbbreaviation ='ug' 
-    : 
-    country == 'tanzania' ? countryAbbreaviation = 'tz'
-    :
-    country == 'ethiopia' ? countryAbbreaviation = 'et'
-    :
-    countryAbbreaviation = 'ke'
+    
 
     // fetch(`${process.env.REACT_APP_API_URL}/keyword/${keyword}/${countryAbbreaviation}`)
     // .then(response => response.json())

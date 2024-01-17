@@ -23,10 +23,17 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
                 keyword
             })
         })
-        .then(response => response.json())
+        .then(response => 
+            {
+                if(response.ok){
+                    return response.json();
+                }else{
+                    return null;
+                }
+            })
         .then(response => {
 
-            if (typeof response === 'string') {
+            if (typeof response === 'string' || response === null) {
                 setType("string")
             } else {
                 setType("array");
