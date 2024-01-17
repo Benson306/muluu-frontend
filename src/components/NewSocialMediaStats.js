@@ -13,14 +13,16 @@ function NewSocialMediaStats({ keyword, country }) {
 
     useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/user/new-socials`,{
+            mode: 'cors',
             method: 'POST',
             headers: {
-                'Content-Type':'application/json'
+                "Content-Type" : "application/json"
             },
-            body:JSON.stringify({
+            body: JSON.stringify({
                 keyword,
                 country
-            })
+            }),
+            redirect: "follow",
         })
         .then(response => response.json())
         .then(response => {
@@ -62,7 +64,7 @@ function NewSocialMediaStats({ keyword, country }) {
                             
                             !loading && socials.length > 0 && socials.filter( social => social.socialType === "INST").map(user => 
                                 <Link to={`${user.url}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 mb-2  rounded-lg gap-4'>
-                                    <img crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
+                                    <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
                                     <div className='flex justify-between items-center w-full'>
                                         <div className=''>
                                             <div className='text-purple-600'>{user.name}</div>
@@ -95,7 +97,7 @@ function NewSocialMediaStats({ keyword, country }) {
                             
                             !loading && socials.length > 0 && socials.filter( social => social.socialType === "FB").map(user => 
                                 <Link to={`${user.url}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 mb-2  rounded-lg gap-4'>
-                                    <img crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
+                                    <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
                                     <div className='flex justify-between items-center w-full'>
                                         <div className=''>
                                             <div className='text-purple-600'>{user.name}</div>
@@ -131,7 +133,7 @@ function NewSocialMediaStats({ keyword, country }) {
                             
                             !loading && socials.length > 0 && socials.filter( social => social.socialType === "TW").map(user => 
                                 <Link to={`${user.url}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 mb-2  rounded-lg gap-4'>
-                                    <img crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
+                                    <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
                                     <div className='flex justify-between items-center w-full'>
                                         <div className=''>
                                             <div className='text-purple-600'>{user.name}</div>
@@ -164,7 +166,7 @@ function NewSocialMediaStats({ keyword, country }) {
                             
                             !loading && socials.length > 0 && socials.filter( social => social.socialType === "TT").map(user => 
                                 <Link to={`${user.url}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 mb-2  rounded-lg gap-4'>
-                                    <img crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
+                                    <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.image} className='h-10 rounded-lg object-contain' />
                                     <div className='flex justify-between items-center w-full'>
                                         <div className=''>
                                             <div className='text-purple-600'>{user.name}</div>
@@ -216,7 +218,7 @@ function NewSocialMediaStats({ keyword, country }) {
                 {
                     !loading && socials && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
                         <Link to={`https://x.com/${user.username}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                            <img crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
+                            <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
                             <div className='block w-3/4 ml-1'>
                                 <div className='text-gray-600 dark:text-gray-300 text-sm'>{user.username}</div>
                             </div>
@@ -322,7 +324,7 @@ function NewSocialMediaStats({ keyword, country }) {
                     {
                         !loading && socials && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
                             <Link to={`https://x.com/${user.username}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                                <img crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
+                                <img alt="Image Not Found" onError={(e) => {e.target.src = "../assets/img/profile.png"}}  crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
                                 <div className='block w-3/4 ml-2'>
                                     <div className='text-black dark:text-gray-300 text-sm mb-1'>{user.username}</div>
                                     <div className='text-gray-700 dark:text-gray-500 text-xs'>{user.post}</div>
