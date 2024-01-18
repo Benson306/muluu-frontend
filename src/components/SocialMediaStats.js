@@ -26,7 +26,7 @@ function SocialMediaStats({ keyword }) {
         .then(response => response.json())
         .then(response => {
             console.log(response)
-            setSocials(response[0])
+            setSocials(response)
             setLoading(false);
         })
         .catch(err => {
@@ -37,14 +37,14 @@ function SocialMediaStats({ keyword }) {
     
   return (
     <div>
-        <SectionTitle>Social Media Stats</SectionTitle>
+        <SectionTitle>Old Social Media Stats</SectionTitle>
     {
         loading && socials == null && <div className='flex justify-center mt-5 mb-10'>
         <ReactLoading type={"spin"} color={"#805ad5"} height={'3%'} width={'3%'} />
       </div>
     }
     {
-        !loading && socials && 
+        !loading && socials !== null && 
         <div>
 
         <div className='block lg:flex gap-4 mb-5 w-full'>
@@ -57,7 +57,7 @@ function SocialMediaStats({ keyword }) {
                     Instagram
                 </p>
                 {
-                    !loading && socials && socials.instagram.users.length > 0 ? socials.instagram.users.map(user => (
+                    !loading && socials !== null && socials.instagram.users.length > 0 ? socials.instagram.users.map(user => (
                         <Link to={`https://instagram.com/${user.username}`} target="_black" className='flex w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
                             <div className='block w-3/4 ml-2'>
                                 <div className='text-purple-600'>{user.fullname}</div>
@@ -75,7 +75,7 @@ function SocialMediaStats({ keyword }) {
                     TikTok
                 </p>
                 {
-                    !loading && socials && socials.tiktok.posts.length > 0 ? socials.tiktok.posts.map(post => (
+                    !loading && socials !== null && socials.tiktok.posts.length > 0 ? socials.tiktok.posts.map(post => (
                         <Link to={`https://tiktok.com/@${post.user_id}`} target="_black" className='flex w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
                                 <div className='text-purple-600'>{post.username}</div>
                         </Link>
@@ -90,7 +90,7 @@ function SocialMediaStats({ keyword }) {
                     X
                 </p>
                 {
-                    !loading && socials && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
+                    !loading && socials !== null && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
                         <Link to={`https://x.com/${user.username}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
                             <img crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
                             <div className='block w-3/4 ml-1'>
@@ -103,7 +103,7 @@ function SocialMediaStats({ keyword }) {
                 }
             </div>
 
-            <div className='mb-3'>
+            {/* <div className='mb-3'>
                 <p className="text-black dark:text-gray-400">
                     LinkedIn
                 </p>
@@ -119,7 +119,7 @@ function SocialMediaStats({ keyword }) {
                         <div className='text-red-500 ml-2'>No Users found.</div>
                     )
                 }
-            </div>
+            </div> */}
             </CardBody>
         </Card>
 
@@ -132,7 +132,7 @@ function SocialMediaStats({ keyword }) {
                     TikTok Hashtags
                 </p>
                 {
-                    !loading && socials && socials.tiktok.hashtags.length > 0 ?   socials.tiktok.hashtags.slice(0,10).map(hashtag => (
+                    !loading && socials !== null && socials.tiktok.hashtags.length > 0 ?   socials.tiktok.hashtags.slice(0,10).map(hashtag => (
                         <div className='mb-2 border border-gray-300 rounded-lg p-2'>
                             { hashtag.length > 0 && <div className='text-gray-700 dark:text-white text-md'>{hashtag}</div> }
                             { hashtag.hashtag && <div className='text-black dark:text-white text-md'>{hashtag.hashtag}</div> }
@@ -152,7 +152,7 @@ function SocialMediaStats({ keyword }) {
                     X Hashtags
                 </p>
                 {
-                    !loading && socials && socials.x.hashtags.length > 0 ? socials.x.hashtags.map(hashtag => (
+                    !loading && socials !== null && socials.x.hashtags.length > 0 ? socials.x.hashtags.map(hashtag => (
                         <div className='mb-2 border border-gray-300 rounded-lg p-2'>
                             { hashtag.length > 0 && <div className='text-gray-600 dark:text-white text-md'>{hashtag}</div> }
                             { hashtag.htg && <div className='text-black dark:text-white text-md'>{hashtag.htg}</div> }
@@ -172,7 +172,7 @@ function SocialMediaStats({ keyword }) {
                 </p>
                 
                 {
-                    !loading && socials &&  socials.instagram.hashtags.length > 0 ? socials.instagram.hashtags.map(hashtag => (
+                    !loading && socials !== null &&  socials.instagram.hashtags.length > 0 ? socials.instagram.hashtags.map(hashtag => (
                         <div className='text-gray-600 dark:text-gray-300 text-sm'>{hashtag}</div>
                     )) : (
                         <div className='text-red-500 ml-2'>No hashtags found.</div>
@@ -196,7 +196,7 @@ function SocialMediaStats({ keyword }) {
                         X 
                     </p>
                     {
-                        !loading && socials && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
+                        !loading && socials !== null && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
                             <Link to={`https://x.com/${user.username}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
                                 <img crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
                                 <div className='block w-3/4 ml-2'>
@@ -215,7 +215,7 @@ function SocialMediaStats({ keyword }) {
                         TikTok
                     </p>
                     {
-                        !loading && socials && socials.tiktok.posts.length > 0 ? socials.tiktok.posts.map(user => (
+                        !loading && socials !== null && socials.tiktok.posts.length > 0 ? socials.tiktok.posts.map(user => (
                             <Link to={user.url} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
                                 <div className='block w-3/4 ml-2'>
                                     <div className='text-black dark:text-purple-300 text-sm mb-1'>{user.username}</div>

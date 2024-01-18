@@ -215,8 +215,10 @@ function Keywords() {
 
         <div>
           <KeywordsStats keyword={keyword} domain={domain} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
-          {/* <SocialMediaStats keyword={keyword} /> */}
+          
           <NewSocialMediaStats keyword={keyword} country={country}/>
+          
+          <SocialMediaStats keyword={keyword} />
         </div>
 
         :
