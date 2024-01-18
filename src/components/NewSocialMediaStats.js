@@ -8,7 +8,7 @@ import ReactLoading from 'react-loading';
 
 function NewSocialMediaStats({ keyword, country }) {
     const [socials, setSocials] = useState(null);
-
+    const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
@@ -31,8 +31,10 @@ function NewSocialMediaStats({ keyword, country }) {
             setLoading(false);
         })
         .catch(err => {
-          console.log(err);
-      })
+            setError(true);
+            setLoading(false);
+            console.log(err);
+        })
     },[])
 
     
@@ -45,7 +47,15 @@ function NewSocialMediaStats({ keyword, country }) {
       </div>
     }
     {
-        !loading && socials && 
+        !loading && error && 
+        <Card className="mb-5 w-full">
+            <CardBody>
+                <p className='text-center text-sm p-2 text-red-500'>Error fetching Data. Try again</p>
+            </CardBody>
+        </Card>
+    }
+    {
+        !loading && !error && socials && 
         <div>
 
         <div className='mb-5 w-full'>
