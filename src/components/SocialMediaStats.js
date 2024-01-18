@@ -8,6 +8,7 @@ import ReactLoading from 'react-loading';
 
 function SocialMediaStats({ keyword }) {
     const [socials, setSocials] = useState(null);
+    const [error, setError] = useState(false);
 
     const [loading, setLoading] = useState(true);
 
@@ -30,8 +31,10 @@ function SocialMediaStats({ keyword }) {
             setLoading(false);
         })
         .catch(err => {
-          console.log(err);
-      })
+            setError(true);
+            setLoading(false);
+            console.log(err);
+        })
     },[])
 
     
@@ -44,7 +47,16 @@ function SocialMediaStats({ keyword }) {
       </div>
     }
     {
-        !loading && socials !== null && 
+        !loading && error && 
+
+        <Card className="mb-5 w-full">
+            <CardBody>
+                <p className='text-center text-sm p-2 text-red-500'>Error Fetching Data</p>
+            </CardBody>
+        </Card>
+    }
+    {
+        !loading && !error && socials !== null && 
         <div>
 
         <div className='block lg:flex gap-4 mb-5 w-full'>
