@@ -82,7 +82,7 @@ function SocialMediaStats({ keyword }) {
                             </div>
                         </Link>
                     )) : (
-                        <div className='text-red-500 ml-2'>No users found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No users found.</div>
                     )
                 }
             </div>
@@ -97,7 +97,7 @@ function SocialMediaStats({ keyword }) {
                                 <div className='text-purple-600'>{post.username}</div>
                         </Link>
                     )) : (
-                        <div className='text-red-500 ml-2'>No Users found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
                     )
                 }
             </div>
@@ -115,7 +115,7 @@ function SocialMediaStats({ keyword }) {
                             </div>
                         </Link>
                     )) : (
-                        <div className='text-red-500 ml-2'>No Users found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
                     )
                 }
             </div>
@@ -133,7 +133,7 @@ function SocialMediaStats({ keyword }) {
                             </div>
                         </Link>
                     )) : (
-                        <div className='text-red-500 ml-2'>No Users found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
                     )
                 }
             </div> */}
@@ -157,7 +157,7 @@ function SocialMediaStats({ keyword }) {
                             { hashtag.use_count && <div className='text-gray-600 dark:text-gray-300 text-sm'>Use Count: {hashtag.use_count}</div> }
                         </div>
                     )) : (
-                        <div className='text-red-500 ml-2'>No hashtags found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
                     )
                 }
                 </CardBody>
@@ -176,7 +176,7 @@ function SocialMediaStats({ keyword }) {
                             { hashtag.use_count && <div className='text-gray-600 dark:text-gray-300 text-sm'>View Count: {hashtag.use_count}</div> }
                         </div>
                     )) : (
-                        <div className='text-red-500 ml-2'>No hashtags found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
                     )
                 }
                 </CardBody>
@@ -192,7 +192,7 @@ function SocialMediaStats({ keyword }) {
                     !loading && socials !== null &&  socials.instagram.hashtags.length > 0 ? socials.instagram.hashtags.map(hashtag => (
                         <div className='text-gray-600 dark:text-gray-300 text-sm'>{hashtag}</div>
                     )) : (
-                        <div className='text-red-500 ml-2'>No hashtags found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
                     )
                 }
                 </CardBody>
@@ -222,7 +222,7 @@ function SocialMediaStats({ keyword }) {
                                 </div>
                             </Link>
                         )) : (
-                            <div className='text-red-500 ml-2'>No Posts found.</div>
+                            <div className='text-red-500 text-sm ml-2'>No Posts found.</div>
                         )
                     }
             </div>
@@ -240,7 +240,7 @@ function SocialMediaStats({ keyword }) {
                                 </div>
                             </Link>
                         )) : (
-                            <div className='text-red-500 ml-2'>No Posts found.</div>
+                            <div className='text-red-500 text-sm ml-2'>No Posts found.</div>
                         )
                     }
             </div>
@@ -264,7 +264,7 @@ function SocialMediaStats({ keyword }) {
                             </div>
                         </div>
                     )) : (
-                        <div className='text-red-500 ml-2'>No Users found.</div>
+                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
                     )
                 }
 
