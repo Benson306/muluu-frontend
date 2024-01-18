@@ -83,7 +83,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
             <p key={index} className="text-sm text-gray-600 dark:text-gray-400">{rs.query}</p>
         ))
         :
-        <p className='text-red-500'>No related Searches</p>
+        <p className='text-red-500 text-sm'>No related Searches</p>
         } 
         </CardBody>
     </Card>
@@ -96,7 +96,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
             <p key={index} className="text-sm text-gray-600 dark:text-gray-400">{rs}</p>
         ))
         :
-        <p className='text-red-500'>No Top google Related Searches</p>
+        <p className='text-red-500 text-sm'>No Top google Related Searches</p>
         } 
         </CardBody>
     </Card>
@@ -113,7 +113,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
             </div>
         )):
         
-        <p className='text-red-500'>No Organic Search Results</p>
+        <p className='text-red-500 text-sm'>No Organic Search Results</p>
         } 
         </CardBody>
     </Card>
@@ -127,7 +127,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
             </div>
         )):
         
-        <p className='text-red-500'>No Top Link Results</p>} 
+        <p className='text-red-500 text-sm'>No Top Link Results</p>} 
         </CardBody>
     </Card>
     </div>
@@ -148,10 +148,10 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
         {
-            !loading && type == "string" && <p className="text-red-500">{`No longtail keywords assocated with ${keyword}`}</p>
+            !loading && type == "string" && <p className="text-red-500 text-sm">{`No longtail keywords assocated with ${keyword}`}</p>
         }
         { !loading && type == "array" && longtail.map( (rs, index) => (
-            <p key={index} className="text-gray-600 dark:text-gray-400">- {rs}</p>
+            <p key={index} className="text-gray-600 dark:text-gray-400 text-sm">- {rs}</p>
         ))
         } 
         </CardBody>
@@ -169,7 +169,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
                 </div>
             )):
             
-            <p className='text-red-500'>No SERP Results for this keyword</p>
+            <p className='text-red-500 text-sm'>No SERP Results for this keyword</p>
         }
         </CardBody>
     </Card>
