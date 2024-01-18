@@ -56,7 +56,7 @@ function SocialMediaStats({ keyword }) {
 
         <Card className="mb-5 w-full">
             <CardBody>
-                <p className='text-center text-sm p-2 text-red-500'>Error Fetching Data</p>
+                <p className='text-center text-sm p-2 text-red-500'>Error fetching Data. Try again</p>
             </CardBody>
         </Card>
     }
