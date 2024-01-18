@@ -26,9 +26,14 @@ function SocialMediaStats({ keyword }) {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
-            setSocials(response)
-            setLoading(false);
+            if('message' in response){
+                setError(true);
+                setLoading(false);
+            }else{
+                console.log(response)
+                setSocials(response)
+                setLoading(false);
+            }    
         })
         .catch(err => {
             setError(true);
