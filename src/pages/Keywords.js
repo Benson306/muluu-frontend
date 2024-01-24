@@ -74,19 +74,19 @@ function Keywords() {
       return;
     }
 
-    if(domain == null){
-      toast.error('Domain is required', {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        });
-      return;
-    }
+    // if(domain == null){
+    //   toast.error('Domain is required', {
+    //     position: "top-right",
+    //     autoClose: 2000,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "colored",
+    //     });
+    //   return;
+    // }
 
     if(country == null){
       toast.error('Select A Country', {
@@ -148,10 +148,13 @@ function Keywords() {
     // })
     // .catch(err => {
     //   console.log(err);
-    // })
+    // })    
+  }
 
+  const [showDomain, setShowDomain] = useState(false);
 
-    
+  const handleDomainToggle = () => {
+    setShowDomain(!showDomain);
   }
 
 
@@ -173,12 +176,34 @@ function Keywords() {
             </Label>
             <Input className="mt-1" placeholder="Enter a keyword...." onChange={(e)=> setKeyword(e.target.value)} />
           </div>
-          <div className='w-full lg:w-1/3 mt-1 lg:mt-0'>
-            <Label className="">
-              <span>Enter a domain</span>
-            </Label>
-            <Input className="mt-1" placeholder="Enter a domain...." onChange={(e)=> setDomain(e.target.value)} />
-          </div>
+          { showDomain ? 
+              <div className='flex items-center gap-3 w-full lg:w-1/3 mt-1 lg:mt-0'>
+                <div className='w-5/6'>
+                <Label className="">
+                  <span>Enter a domain</span>
+                </Label>
+                <Input className="mt-1" placeholder="Enter a domain...." onChange={(e)=> setDomain(e.target.value)} />
+                </div>
+                <button 
+                className='mt-6 text-red-500 text-sm font-extrabold'
+                onClick={e => {
+                  e.preventDefault();
+                  setDomain(null);
+                  handleDomainToggle();
+                }}
+                >X</button>
+              </div>
+              :
+              <div className='mt-2 lg:mt-6 lg:mx-4'>
+                  <Button class="border border-purple-600 hover:bg-purple-600 hover:text-white p-2 text-xs rounded-lg dark:text-white" onClick={(e)=>{
+                    e.preventDefault();
+                    handleDomainToggle();
+                  }}>
+                    + Add Domain
+                  </Button>
+              </div>
+          
+          }
           <div className='w-full lg:w-1/3 flex items-center gap-4 mt-1 lg:mt-0'>
             <div className='w-3/4 lg:w-1/2'>
               <Label className="">

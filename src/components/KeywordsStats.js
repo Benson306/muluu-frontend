@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom'
 function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) {
 
     const [socails, setSocials] = useState(null);
-    const [longtail, setLongtail] = useState(null);
+    const [longtail, setLongtail] = useState([]);
     const [serpData, setSerpData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [type, setType]= useState(null);
+    const [showSerpData, setShowSerpData] = useState(false);
 
     useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/user/longtail`,{
@@ -32,31 +33,34 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
                 }
             })
         .then(response => {
-
-            if (typeof response === 'string' || response === null) {
-                setType("string")
-            } else {
+            let RespType = Array.isArray(response);
+            if(RespType){
                 setType("array");
+                setLongtail(response)
+            }else{
+                setType("string")
             }
 
-            setLongtail(response)
-
-            fetch(`${process.env.REACT_APP_API_URL}/user/serp-search`,{
-                method: 'POST',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({
-                    domain,
-                    keyword
+            if(domain !== null){
+                fetch(`${process.env.REACT_APP_API_URL}/user/serp-search`,{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        domain,
+                        keyword
+                    })
                 })
-            })
-            .then((newResponse)=> newResponse.json())
-            .then((newResponse)=>{
-                setLoading(false);
-                setSerpData(newResponse.result.organic);
-            })
-            .catch(err =>{ console.log(err) })
+                .then((newResponse)=> newResponse.json())
+                .then((newResponse)=>{
+                    setLoading(false);
+                    setSerpData(newResponse.result.organic);
+                    setShowSerpData(true);
+                })
+                .catch(err =>{ console.log(err) })
+            }
+            setLoading(false);
         })
         .catch(err => {
           console.log(err);
@@ -148,15 +152,17 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail Keywords</p>
         {
-            !loading && type == "string" && <p className="text-red-500 text-sm">{`No longtail keywords assocated with ${keyword}`}</p>
+            !loading && type === "string" ? 
+            ( <p className="text-red-500 text-sm">{`No longtail keywords assocated with ${keyword}`}</p> )
+            :
+            longtail.map( (rs, index) => (
+                <p key={index} className="text-gray-600 dark:text-gray-400 text-sm">- {rs}</p>
+            ))
         }
-        { !loading && type == "array" && longtail.map( (rs, index) => (
-            <p key={index} className="text-gray-600 dark:text-gray-400 text-sm">- {rs}</p>
-        ))
-        } 
         </CardBody>
     </Card>
 
+    { showSerpData && 
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">SERP Position</p>
@@ -172,7 +178,7 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
             <p className='text-red-500 text-sm'>No SERP Results for this keyword</p>
         }
         </CardBody>
-    </Card>
+    </Card> }
 
     
     </div>

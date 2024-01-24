@@ -31,7 +31,11 @@ function SocialMediaStats({ keyword }) {
                 setLoading(false);
             }else{
                 console.log(response)
-                setSocials(response)
+                if(Array.isArray(response)){
+                    setSocials(response[0])
+                }else{
+                    setSocials(response);
+                }
                 setLoading(false);
             }    
         })
