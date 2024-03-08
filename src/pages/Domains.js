@@ -31,7 +31,6 @@ import {
   lineLegends,
 } from '../utils/demo/chartsData'
 import SectionTitle from '../components/Typography/SectionTitle'
-import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
 import CompetitorAnanlysis from '../components/CompetitorAnanlysis'
 import SiteStats from '../components/SiteStats'

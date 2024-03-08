@@ -2,111 +2,117 @@ import React, { useEffect, useState } from 'react'
 import {
     Card, CardBody
   } from '@windmill/react-ui'
-import SectionTitle from '../components/Typography/SectionTitle'
+import SectionTitle from './Typography/SectionTitle'
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
 
-function SocialMediaStats({ keyword }) {
+function TikTokSocial({ keyword }) {
     const [socials, setSocials] = useState(null);
     const [error, setError] = useState(false);
-
     const [loading, setLoading] = useState(true);
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/user/socials`,{
-            //mode: 'cors',
+        fetch(`http://localhost:3000/tiktok_social`,{
             method: 'POST',
             headers: {
                 'Content-Type':'application/json'
             },
             body:JSON.stringify({
-                keyword: keyword
-                //count: 5
+                keyword: keyword,
+                count: 5
             })
         })
-        .then(response => response.json())
         .then(response => {
-            if('message' in response){
+            if(response.ok){
+                
+                response.json().then(res => {
+                    setSocials(res[0].result);
+                    setLoading(false);
+                })
+                
+            }else{
                 setError(true);
                 setLoading(false);
-            }else{
-                console.log(response)
-                if(Array.isArray(response)){
-                    setSocials(response[0])
-                }else{
-                    setSocials(response);
-                }
-                setLoading(false);
-            }    
+            }
         })
         .catch(err => {
             setError(true);
             setLoading(false);
-            console.log(err);
         })
     },[])
 
     
   return (
     <div>
-        <SectionTitle>Old Social Media Stats</SectionTitle>
-    {
-        loading && socials == null && <div className='flex justify-center mt-5 mb-10'>
-        <ReactLoading type={"spin"} color={"#805ad5"} height={'3%'} width={'3%'} />
-      </div>
-    }
-    {
-        !loading && error && 
+        <SectionTitle>TikTok</SectionTitle>
+        {
+            loading && socials == null && 
+            <div className='flex justify-center mt-5 mb-10'>
+                <ReactLoading type={"spin"} color={"#805ad5"} height={'3%'} width={'3%'} />
+            </div>
+        }
+        {
+            !loading && error && 
 
-        <Card className="mb-5 w-full">
-            <CardBody>
-                <p className='text-center text-sm p-2 text-red-500'>Error fetching Data. Try again</p>
-            </CardBody>
-        </Card>
-    }
-    {
-        !loading && !error && socials !== null && 
-        <div>
+            <Card className="mb-5 w-full">
+                <CardBody>
+                    <p className='text-center text-sm p-2 text-red-500'>Error fetching Data. Try again</p>
+                </CardBody>
+            </Card>
+        }
+        {
+            !loading && !error && socials !== null && 
+                <div className='block lg:flex gap-4 mb-5 w-full'>
+                    <Card className="mb-5 w-full lg:w-1/2">
+                        <CardBody>
+                        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Popular Accounts</p>
+                        
+                        <div className='mb-3'>
+                            {
+                                !loading && socials !== null && socials.posts.length > 0 ? socials.posts.map(post => (
+                                    <Link to={`https://tiktok.com/@${post.user_id}`} target="_black" className='flex w-full p-3 border border-gray-300 m-2 rounded-lg'>
+                                            <div className='text-purple-600'>{post.username}</div>
+                                    </Link>
+                                )) : (
+                                    <div className='text-red-500 text-sm ml-2'>No Users found.</div>
+                                )
+                            }
+                        </div>
+                        </CardBody>
+                    </Card>
 
-        <div className='block lg:flex gap-4 mb-5 w-full'>
-        <Card className="mb-5 w-full lg:w-1/2">
-            <CardBody>
-            <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Popular Accounts</p>
+                    <Card className="mb-5 w-full lg:w-1/2">
+                        <CardBody>
+                            <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Hashtags</p>
+                            {
+                                !loading && socials !== null && socials.hashtags.length > 0 ?   socials.hashtags.slice(0,10).map(hashtag => (
+                                    <div className='mb-2 border border-gray-300 rounded-lg p-2'>
+                                        { hashtag.length > 0 && <div className='text-gray-700 dark:text-white text-md'>{hashtag}</div> }
+                                        { hashtag.hashtag && <div className='text-black dark:text-white text-sm'>{hashtag.hashtag}</div> }
+                                        { hashtag.view_count &&<div className='text-gray-600 dark:text-gray-300 text-xs'>View Count: {hashtag.view_count}</div> }
+                                        { hashtag.use_count && <div className='text-gray-600 dark:text-gray-300 text-xs'>Use Count: {hashtag.use_count}</div> }
+                                    </div>
+                                )) : (
+                                    <div className='text-red-500 text-xs ml-2'>No hashtags found.</div>
+                                )
+                            }
+                        </CardBody>
+                    </Card>
 
-            <div className='mb-3'>
+                </div>
+        }
+    </div>
+  )};
+  export default TikTokSocial
+
+
+            {/* <div className='mb-3'>
                 <p className="text-black dark:text-gray-400">
                     Instagram
                 </p>
-                {
-                    !loading && socials !== null && socials.instagram.users.length > 0 ? socials.instagram.users.map(user => (
-                        <Link to={`https://instagram.com/${user.username}`} target="_black" className='flex w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                            <div className='block w-3/4 ml-2'>
-                                <div className='text-purple-600'>{user.fullname}</div>
-                                <div className='text-gray-600 dark:text-gray-300 text-sm'>{user.username}</div>
-                            </div>
-                        </Link>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No users found.</div>
-                    )
-                }
-            </div>
-            
-            <div className='mb-3'>
-                <p className="text-black dark:text-gray-400">
-                    TikTok
-                </p>
-                {
-                    !loading && socials !== null && socials.tiktok.posts.length > 0 ? socials.tiktok.posts.map(post => (
-                        <Link to={`https://tiktok.com/@${post.user_id}`} target="_black" className='flex w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                                <div className='text-purple-600'>{post.username}</div>
-                        </Link>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
-                    )
-                }
-            </div>
-
-            <div className='mb-3'>
+                
+            </div> */}
+            {/* <div className='mb-3'>
                 <p className="text-black dark:text-gray-400">
                     X
                 </p>
@@ -122,7 +128,7 @@ function SocialMediaStats({ keyword }) {
                         <div className='text-red-500 text-sm ml-2'>No Users found.</div>
                     )
                 }
-            </div>
+            </div> */}
 
             {/* <div className='mb-3'>
                 <p className="text-black dark:text-gray-400">
@@ -141,33 +147,8 @@ function SocialMediaStats({ keyword }) {
                     )
                 }
             </div> */}
-            </CardBody>
-        </Card>
 
-        <Card className="mb-5 w-full lg:w-1/2">
-            <CardBody>
-            <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Hashtags</p>
-            <Card className="mb-3 w-fulls">
-                <CardBody>
-                <p className="text-black mb-2 dark:text-gray-400">
-                    TikTok Hashtags
-                </p>
-                {
-                    !loading && socials !== null && socials.tiktok.hashtags.length > 0 ?   socials.tiktok.hashtags.slice(0,10).map(hashtag => (
-                        <div className='mb-2 border border-gray-300 rounded-lg p-2'>
-                            { hashtag.length > 0 && <div className='text-gray-700 dark:text-white text-md'>{hashtag}</div> }
-                            { hashtag.hashtag && <div className='text-black dark:text-white text-md'>{hashtag.hashtag}</div> }
-                            { hashtag.view_count &&<div className='text-gray-600 dark:text-gray-300 text-sm'>View Count: {hashtag.view_count}</div> }
-                            { hashtag.use_count && <div className='text-gray-600 dark:text-gray-300 text-sm'>Use Count: {hashtag.use_count}</div> }
-                        </div>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
-                    )
-                }
-                </CardBody>
-            </Card>
-
-            <Card className="mb-3 w-fulls">
+            {/* <Card className="mb-3 w-fulls">
                 <CardBody>
                 <p className="text-black mb-2 dark:text-gray-400">
                     X Hashtags
@@ -184,29 +165,22 @@ function SocialMediaStats({ keyword }) {
                     )
                 }
                 </CardBody>
-            </Card>
+            </Card> */}
 
-            <Card className="mb-3 w-fulls">
+            {/* <Card className="mb-3 w-fulls">
                 <CardBody>
                 <p className="text-black mb-2 dark:text-gray-400">
                     Instagram Hashtags
                 </p>
                 
-                {
-                    !loading && socials !== null &&  socials.instagram.hashtags.length > 0 ? socials.instagram.hashtags.map(hashtag => (
-                        <div className='text-gray-600 dark:text-gray-300 text-sm'>{hashtag}</div>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
-                    )
-                }
+                
                 </CardBody>
             </Card>
 
             </CardBody>
-        </Card>
-        </div>
+        </Card> */}
 
-        <div className='block lg:flex gap-4 mb-5'>
+        {/* <div className='block lg:flex gap-4 mb-5'>
         <Card className="mb-5 w-full">
             <CardBody>
             <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Popular Posts</p>
@@ -229,9 +203,9 @@ function SocialMediaStats({ keyword }) {
                             <div className='text-red-500 text-sm ml-2'>No Posts found.</div>
                         )
                     }
-            </div>
+            </div> */}
             
-            <div className='w-full lg:w-1/2 p-4 rounded-lg mb-2'>
+            {/* <div className='w-full lg:w-1/2 p-4 rounded-lg mb-2'>
                     <p className="text-gray-600 dark:text-gray-400">
                         TikTok
                     </p>
@@ -247,9 +221,7 @@ function SocialMediaStats({ keyword }) {
                             <div className='text-red-500 text-sm ml-2'>No Posts found.</div>
                         )
                     }
-            </div>
-
-            </div>
+            </div> */}
 
             {/* <div className='w-full p-4 rounded-lg mb-2'>
                 <p className="text-gray-600 dark:text-gray-400">
@@ -273,15 +245,8 @@ function SocialMediaStats({ keyword }) {
                 }
 
             </div> */}
-            </CardBody>
-        </Card>
+            
+//   )
+// }
 
-        </div>
-        </div>
-    }
-      
-    </div>
-  )
-}
 
-export default SocialMediaStats

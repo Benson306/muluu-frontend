@@ -2,8 +2,28 @@ import React, { useEffect, useState } from 'react'
 import {
     Input, HelperText, Label, Select, Textarea, Button, Card, CardBody
   } from '@windmill/react-ui'
+  import {
+    Table,
+    TableHeader,
+    TableCell,
+    TableBody,
+    TableRow,
+    TableContainer,
+  } from '@windmill/react-ui'
 import SectionTitle from '../components/Typography/SectionTitle'
 import { Link } from 'react-router-dom'
+import InfoCard from './Cards/InfoCard'
+import {
+    doughnutOptions,
+    lineOptions,
+    barOptions,
+    doughnutLegends,
+    lineLegends,
+    barLegends,
+  } from '../utils/demo/chartsData'
+  import ChartCard from '../components/Chart/ChartCard'
+import { Doughnut, Line, Bar } from 'react-chartjs-2'
+import ChartLegend from '../components/Chart/ChartLegend'
 
 function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) {
 
@@ -77,7 +97,68 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
 
   return (
     <div>
+        <div className='block lg:flex gap-5'>
+            <div className='w-full lg:w-1/2'>
+                <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+                    <InfoCard title="Keyword Volume" value={567}></InfoCard>
+                    <InfoCard title="Keyword Difficulty" value={12}></InfoCard>
+                </div>
+
+                <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+                    <InfoCard title="Global Volume" value={1246}></InfoCard>
+                    <InfoCard title="CPC" value={1246}></InfoCard>
+                </div>
+                <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+                    <InfoCard title="Competition" value={1246}></InfoCard>
+                </div>
+            </div>
+            <div className='w-5/6'>
+                <ChartCard title="Line Bar">
+                    <Line {...lineOptions} />
+                    <ChartLegend legends={lineLegends} />
+                </ChartCard>
+            </div>
+        </div>
+
       <SectionTitle>Keyword Stats</SectionTitle>
+
+      <Card className="mb-5 w-full">
+        <CardBody>
+        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Related Keywords Data</p>
+        <TableContainer className="mb-8">
+        <Table>
+          <TableHeader>
+            <tr>
+              <TableCell></TableCell>
+              <TableCell>Volume</TableCell>
+              <TableCell>Global Volume</TableCell>
+              <TableCell>Competition</TableCell>
+              <TableCell>CPC</TableCell>
+            </tr>
+          </TableHeader>
+          <TableBody>
+              <TableRow>
+                <TableCell>
+                    <span className="text-sm">Keyword 1</span>
+                </TableCell>
+                <TableCell>
+                    <span className="text-sm">432</span>
+                </TableCell>
+                <TableCell>
+                    <span className="text-sm">432</span>
+                </TableCell>
+                <TableCell>
+                    <span className="text-sm">432</span>
+                </TableCell>
+                <TableCell>
+                    <span className="text-sm">432</span>
+                </TableCell>
+              </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+        </CardBody>
+    </Card>
 
     <div className='block lg:flex gap-4 mb-5'>
     <Card className="mb-5 w-full lg:w-1/2">
@@ -137,16 +218,6 @@ function KeywordsStats({ keyword, domain, data, topLinks, topRelatedKeywords }) 
     </div>
 
     <div className='block lg:flex gap-4 mb-5'>
-    {/* <Card className="mb-5 w-full lg:w-1/2">
-        <CardBody>
-        <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Long tail keywords</p>
-        <p className="text-gray-600 dark:text-gray-400">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fuga, cum commodi a omnis
-            numquam quod? Totam exercitationem quos hic ipsam at qui cum numquam, sed amet
-            ratione! Ratione, nihil dolorum.
-        </p>
-        </CardBody>
-    </Card> */}
     
     <Card className="mb-5 w-full lg:w-1/2">
         <CardBody>

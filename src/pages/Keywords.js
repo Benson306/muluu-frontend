@@ -31,12 +31,14 @@ import {
   lineLegends,
 } from '../utils/demo/chartsData'
 import SectionTitle from '../components/Typography/SectionTitle'
-import SocialMediaStats from '../components/SocialMediaStats'
 import KeywordsStats from '../components/KeywordsStats'
 import BeforeKeywordResult from './BeforeKeywordResult'
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import NewSocialMediaStats from '../components/NewSocialMediaStats';
+import TikTokSocial from '../components/TikTokSocial';
+import InstagramSocial from '../components/InstagramSocial';
+import TwitterSocial from '../components/TwitterSocial';
+import LinkedInSocial from '../components/LinkedInSocial';
 
 function Keywords() {
   // const [page, setPage] = useState(1)
@@ -241,9 +243,15 @@ function Keywords() {
         <div>
           <KeywordsStats keyword={keyword} domain={domain} data={data.searchResult.result || null } topLinks={data.topLinks || null} topRelatedKeywords={ data.topRelatedKeywords ? [...new Set(data.topRelatedKeywords)] : null}/>
           
-          <NewSocialMediaStats keyword={keyword} country={country}/>
-          
-          <SocialMediaStats keyword={keyword} />
+          <SectionTitle>Social Media Stats</SectionTitle>
+
+          <TikTokSocial keyword={keyword} />
+
+          <InstagramSocial keyword={keyword} />
+
+          <TwitterSocial keyword={keyword} />
+
+          <LinkedInSocial keyword={keyword} />
         </div>
 
         :

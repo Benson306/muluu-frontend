@@ -27,6 +27,7 @@ function NewSocialMediaStats({ keyword, country }) {
         .then(response => response.json())
         .then(response => {
             console.log(response);
+            
             setSocials(response.result)
             setLoading(false);
         })
