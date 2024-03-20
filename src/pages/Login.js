@@ -33,10 +33,11 @@ function Login() {
       return;
     }
 
-    fetch(`${process.env.REACT_APP_API_URL}/user/login`,{
+    fetch(`${process.env.REACT_APP_API_URL}/login`,{
       method:'POST',
       headers: {
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         username: usernameNow,
@@ -57,9 +58,9 @@ function Login() {
           });
 
           response.json().then((res)=>{
-            addEmail(res.profile.Email);
-            addUid(res.profile.ID);
-            addUsername(res.profile.Username);
+            addEmail(res.profile.email);
+            addUid(res.profile.id);
+            addUsername(res.profile.username);
             addToken(res.token);
 
             navigate('/app/keyword');

@@ -1,69 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ReactLoading from 'react-loading';
-
-import CTA from '../components/CTA'
-import InfoCard from '../components/Cards/InfoCard'
-import ChartCard from '../components/Chart/ChartCard'
-import { Doughnut, Line } from 'react-chartjs-2'
-import ChartLegend from '../components/Chart/ChartLegend'
 import PageTitle from '../components/Typography/PageTitle'
-import { ChatIcon, CartIcon, MoneyIcon, PeopleIcon } from '../icons'
-import RoundIcon from '../components/RoundIcon'
-import response from '../utils/demo/tableData'
 import {
-  TableBody,
-  TableContainer,
-  Table,
-  TableHeader,
-  TableCell,
-  TableRow,
-  TableFooter,
-  Avatar,
-  Badge,
-  Pagination,
-  Input, HelperText, Label, Select, Textarea, Button, Card, CardBody
+  Input, Label, Select, Button, Card, CardBody
 } from '@windmill/react-ui'
-
-import {
-  doughnutOptions,
-  lineOptions,
-  doughnutLegends,
-  lineLegends,
-} from '../utils/demo/chartsData'
 import SectionTitle from '../components/Typography/SectionTitle'
-import KeywordsStats from '../components/KeywordsStats'
 import CompetitorAnanlysis from '../components/CompetitorAnanlysis'
 import SiteStats from '../components/SiteStats'
 import BeforeDomainResults from './BeforeDomainResults';
 import { ToastContainer,toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Backlinks from '../components/Backlinks';
+import KeywordsRankingInDomain from '../components/KeywordsRankingInDomain';
+import { AuthContext } from '../context/AuthContext';
+import KeywordOpportunity from '../components/KeywordOpportunity';
 
 function Domains() {
-  // const [page, setPage] = useState(1)
-
-  // // pagination setup
-  // const resultsPerPage = 10
-  // const totalResults = response.length
-
-  // // pagination change control
-  // function onPageChange(p) {
-  //   setPage(p)
-  // }
-
-  // // on page change, load new sliced data
-  // // here you would make another server request for new data
-  // useEffect(() => {
-  //   setData(response.slice((page - 1) * resultsPerPage, page * resultsPerPage))
-  // }, [page])
 
   const [resultAvailable, setResultAvailable] = useState(false);
 
   const [url, setUrl] = useState(null);
   const [industry, setIndustry] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [keywordOpportunity, setKeywordOpportunity] = useState(null);
-  const [data, setData] = useState([])
 
+  const { token } = useContext(AuthContext);
 
   const handleSubmit = () => {
 
@@ -82,10 +44,11 @@ function Domains() {
     }
 
     setLoading(true);
-    fetch(`${process.env.REACT_APP_API_URL}/user/keyword_opportunity`,{
+    fetch(`${process.env.REACT_APP_API_URL}/keyword_opportunity`,{
       method:'POST',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         url,
@@ -94,13 +57,15 @@ function Domains() {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       setKeywordOpportunity(response);
       setLoading(false);
       setResultAvailable(true);
     })
     .catch(err => {
       console.log(err);
+      setError(true);
+      setLoading(false);
+      setResultAvailable(true);
     })
 
     
@@ -165,76 +130,52 @@ function Domains() {
         </div>
       }
 
-    { !loading && resultAvailable ? 
+    { 
+    
+    !loading && resultAvailable &&
     
     <div>
       <SiteStats url={url} />
-        
-      
-        <div className='block lg:flex gap-4 mb-5'>
+      <div className='block lg:flex gap-4 mb-5'>
+        <div className='w-full lg:w-1/2 mb-5'>
+            <SectionTitle>Keyword Stats</SectionTitle>
+            <KeywordOpportunity url={url} error={error} keywordOpportunity={keywordOpportunity} />                
+        </div>
 
-            <div className='w-full lg:w-1/2 mb-5'>
-                <SectionTitle>Keyword Stats</SectionTitle>
-                
-                <Card>
-                    <CardBody>
-                    <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Keyword Opportunity</p>
-                    {/* <CTA text={"These are keywords that rank highly for a particular industry but have not been used on this site"} /> */}
-                    { keywordOpportunity.keywords && keywordOpportunity.keywords.length > 0 ? keywordOpportunity.keywords.slice(0,9).map((keyword)=>(
-                      <p key={keyword} className="text-gray-600 dark:text-gray-400">
-                        {keyword}
-                      </p> 
-                    )) : keywordOpportunity.message &&
-                    <p className="text-red-500 dark:text-red-400">
-                      No Keyword opportunities found
-                    </p> }
-                   
-                    </CardBody>
-                </Card>
-            </div>
+        <div className="w-full lg:w-1/2 mb-5">
+            <CompetitorAnanlysis />
+        </div>
+      </div>
 
-              <div className="w-full lg:w-1/2 mb-5">
-                  <CompetitorAnanlysis />
-              </div>
-          </div>
+      <div className='w-full lg:w-1/2 mb-5'>
+        <SectionTitle>Keywords that website ({url}) ranks for</SectionTitle>
+        <KeywordsRankingInDomain url={url} />
+      </div>
 
 
-          <div className='block lg:flex gap-4 mb-5'>
-              <div className="mb-5 w-full lg:w-1/2">
-                  <Card >
-                      <CardBody>
-                      <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Backlinks</p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
-                      </CardBody>
-                  </Card>
-              </div>
+      <div className='block lg:flex gap-4 mb-5'>
+        <div className="mb-5 w-full lg:w-1/2">
+            <Backlinks url={url} />
+        </div>
+        <div className="mb-5 w-full lg:w-1/2">
+            <Card>
+                <CardBody>
+                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
+                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
+                </CardBody>
+            </Card>
+        </div>
+      </div>
 
-              <div className="mb-5 w-full lg:w-1/2">
-                  <Card>
-                      <CardBody>
-                      <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
-                      <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
-                      </CardBody>
-                  </Card>
-              </div>
-          
-          </div>
-
-    </div> :
-    !loading && <BeforeDomainResults />
-    
+    </div> }
+    {
+      !loading && !resultAvailable && <BeforeDomainResults />
     }
       
-
-  
     </>
   )
 }

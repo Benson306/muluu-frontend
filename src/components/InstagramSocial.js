@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Card, CardBody
   } from '@windmill/react-ui'
 import SectionTitle from './Typography/SectionTitle'
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import { AuthContext } from '../context/AuthContext';
 
 function InstagramSocial({ keyword }) {
     const [socials, setSocials] = useState(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const { token } = useContext(AuthContext);
+
     useEffect(()=>{
-        fetch(`http://localhost:3000/instagram_social`,{
+        fetch(`${process.env.REACT_APP_LOCAL_IP}/instagram_social`,{
             method: 'POST',
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body:JSON.stringify({
                 keyword: keyword,

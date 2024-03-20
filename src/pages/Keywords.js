@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ReactLoading from 'react-loading';
 
 import CTA from '../components/CTA'
@@ -39,6 +39,7 @@ import TikTokSocial from '../components/TikTokSocial';
 import InstagramSocial from '../components/InstagramSocial';
 import TwitterSocial from '../components/TwitterSocial';
 import LinkedInSocial from '../components/LinkedInSocial';
+import { AuthContext } from '../context/AuthContext';
 
 function Keywords() {
   // const [page, setPage] = useState(1)
@@ -60,6 +61,8 @@ function Keywords() {
   const [domain, setDomain] = useState(null);
   const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
+
+  const { token } = useContext(AuthContext);
 
   const handleSubmit = () => {
     if(keyword == null){
@@ -118,10 +121,11 @@ function Keywords() {
     :
     countryAbbreaviation = 'ke'
 
-    fetch(`${process.env.REACT_APP_API_URL}/user/keywords`,{
+    fetch(`${process.env.REACT_APP_API_URL}/keywords`,{
       method:'POST',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         keyword,
@@ -130,6 +134,7 @@ function Keywords() {
     })
     .then(response => response.json())
     .then(response => {
+      console.log(response)
       setData(response);
       setLoading(false);
       setResultAvailable(true);

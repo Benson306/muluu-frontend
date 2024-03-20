@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Card, CardBody
   } from '@windmill/react-ui'
 import SectionTitle from '../components/Typography/SectionTitle'
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import { AuthContext } from '../context/AuthContext';
 
 function NewSocialMediaStats({ keyword, country }) {
     const [socials, setSocials] = useState(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const { token } = useContext(AuthContext);
+
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/user/new-socials`,{
+        fetch(`${process.env.REACT_APP_API_URL}/new-socials`,{
             mode: 'cors',
             method: 'POST',
             headers: {
-                "Content-Type" : "application/json"
+                "Content-Type" : "application/json",
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
                 keyword,

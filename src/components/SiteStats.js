@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Card, CardBody
   } from '@windmill/react-ui'
@@ -7,6 +7,7 @@ import RoundIcon from './RoundIcon'
 import InfoCard from './Cards/InfoCard'
 import { CartIcon, RankIcon, ForbiddenIcon, BackLinkIcon, DomainIcon } from '../icons'
 import ReactLoading from 'react-loading';
+import { AuthContext } from '../context/AuthContext'
 
 function SiteStats({ url }) {
 
@@ -14,11 +15,14 @@ function SiteStats({ url }) {
   const [loading, setLoading] = useState(null);
   const [data, setData] = useState(null);
 
+  const { token } = useContext(AuthContext);
+
   useEffect(()=>{
-    fetch(`${process.env.REACT_APP_API_URL}/user/site-metrics`,{
+    fetch(`${process.env.REACT_APP_API_URL}/site-metrics`,{
       method:'POST',
       headers:{
-        'Content-Type':'application/json'
+        'Content-Type':'application/json',
+        'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
         sitename : url
@@ -33,7 +37,7 @@ function SiteStats({ url }) {
     .catch(err => {
       console.log(err);
     })
-  })
+  },[])
   return (
     <div>
 

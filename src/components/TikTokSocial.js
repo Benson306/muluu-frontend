@@ -1,21 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Card, CardBody
   } from '@windmill/react-ui'
 import SectionTitle from './Typography/SectionTitle'
 import { Link } from 'react-router-dom';
 import ReactLoading from 'react-loading';
+import { AuthContext } from '../context/AuthContext';
 
 function TikTokSocial({ keyword }) {
     const [socials, setSocials] = useState(null);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const { token } = useContext(AuthContext);
+
     useEffect(()=>{
-        fetch(`http://localhost:3000/tiktok_social`,{
+        fetch(`${process.env.REACT_APP_LOCAL_IP}/tiktok_social`,{
             method: 'POST',
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body:JSON.stringify({
                 keyword: keyword,
@@ -116,36 +120,14 @@ function TikTokSocial({ keyword }) {
                 <p className="text-black dark:text-gray-400">
                     X
                 </p>
-                {
-                    !loading && socials !== null && socials.x.posts.length > 0 ? socials.x.posts.map(user => (
-                        <Link to={`https://x.com/${user.username}`} target="_black" className='flex items-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                            <img crossorigin='anonymous' src={user.user_profile_pic} className='h-10 rounded-lg object-contain' />
-                            <div className='block w-3/4 ml-1'>
-                                <div className='text-gray-600 dark:text-gray-300 text-sm'>{user.username}</div>
-                            </div>
-                        </Link>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
-                    )
-                }
+                
             </div> */}
 
             {/* <div className='mb-3'>
                 <p className="text-black dark:text-gray-400">
                     LinkedIn
                 </p>
-                {
-                    !loading && socials &&  socials.linkedIn.users.length > 0 ? socials.linkedIn.users.map(user => (
-                        <Link to={`https://linkedin.com/in/${user.profileUrl}`} target="_black" className='flex item-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                            <div className='block w-3/4 ml-2'>
-                                <div className='text-purple-600'>{user.username}</div>
-                                <div className='text-gray-600 dark:text-gray-300 text-sm'>{user.profileTitle}</div>
-                            </div>
-                        </Link>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
-                    )
-                }
+                
             </div> */}
 
             {/* <Card className="mb-3 w-fulls">
@@ -153,17 +135,7 @@ function TikTokSocial({ keyword }) {
                 <p className="text-black mb-2 dark:text-gray-400">
                     X Hashtags
                 </p>
-                {
-                    !loading && socials !== null && socials.x.hashtags.length > 0 ? socials.x.hashtags.map(hashtag => (
-                        <div className='mb-2 border border-gray-300 rounded-lg p-2'>
-                            { hashtag.length > 0 && <div className='text-gray-600 dark:text-white text-md'>{hashtag}</div> }
-                            { hashtag.htg && <div className='text-black dark:text-white text-md'>{hashtag.htg}</div> }
-                            { hashtag.use_count && <div className='text-gray-600 dark:text-gray-300 text-sm'>View Count: {hashtag.use_count}</div> }
-                        </div>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No hashtags found.</div>
-                    )
-                }
+                
                 </CardBody>
             </Card> */}
 
@@ -228,21 +200,7 @@ function TikTokSocial({ keyword }) {
                     LinkedIn
                 </p>
 
-                {
-                    !loading && socials &&  socials.linkedIn.posts.length > 0 ? socials.linkedIn.posts.map(post => (
-                        <div className='flex item-center w-full p-3 border-2 border-gray-400 m-2 rounded-lg'>
-                            <div className='block w-3/4 ml-2'>
-                                <div className='text-purple-600'>{post.postDescription}</div>
-                                <div className='text-gray-600 dark:text-gray-300 text-sm flex gap-5'>
-                                    {post.reactionsCount == null ? <p>0</p> : <p>{post.reactionsCount}</p> }
-                                    {post.commentsCount == null ? <p>0</p> : <p>{post.commentsCount}</p> }
-                                </div>
-                            </div>
-                        </div>
-                    )) : (
-                        <div className='text-red-500 text-sm ml-2'>No Users found.</div>
-                    )
-                }
+                
 
             </div> */}
             
