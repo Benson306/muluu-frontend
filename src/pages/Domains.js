@@ -147,7 +147,7 @@ function Domains() {
         </div>
       </div>
 
-      <div className='w-full lg:w-1/2 mb-5'>
+      <div className='mb-5'>
         <SectionTitle>Keywords that website ({url}) ranks for</SectionTitle>
         <KeywordsRankingInDomain url={url} />
       </div>

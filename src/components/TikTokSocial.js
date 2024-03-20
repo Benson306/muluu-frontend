@@ -27,10 +27,11 @@ function TikTokSocial({ keyword }) {
             })
         })
         .then(response => {
+            
             if(response.ok){
                 
                 response.json().then(res => {
-                    setSocials(res[0].result);
+                    setSocials(res.result);
                     setLoading(false);
                 })
                 

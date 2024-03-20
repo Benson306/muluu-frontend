@@ -30,7 +30,7 @@ function TwitterSocial({ keyword }) {
             if(response.ok){
                 
                 response.json().then(res => {
-                    setSocials(res[0].result);
+                    setSocials(res.result);
                     setLoading(false);
                 })
                 
