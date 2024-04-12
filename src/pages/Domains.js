@@ -14,6 +14,7 @@ import Backlinks from '../components/Backlinks';
 import KeywordsRankingInDomain from '../components/KeywordsRankingInDomain';
 import { AuthContext } from '../context/AuthContext';
 import KeywordOpportunity from '../components/KeywordOpportunity';
+import WebsiteTraffic from './WebsiteTraffic';
 
 function Domains() {
 
@@ -143,32 +144,15 @@ function Domains() {
         </div>
 
         <div className="w-full lg:w-1/2 mb-5">
-            <CompetitorAnanlysis />
+              <Backlinks url={url} />
         </div>
       </div>
 
       <div className='mb-5'>
         <SectionTitle>Keywords that website ({url}) ranks for</SectionTitle>
         <KeywordsRankingInDomain url={url} />
-      </div>
-
-
-      <div className='block lg:flex gap-4 mb-5'>
-        <div className="mb-5 w-full lg:w-1/2">
-            <Backlinks url={url} />
-        </div>
-        <div className="mb-5 w-full lg:w-1/2">
-            <Card>
-                <CardBody>
-                <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Worst Perfoming Pages</p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 1 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 2 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 3 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 4 </p>
-                <p className="text-gray-600 dark:text-gray-400"> Link 5 </p>
-                </CardBody>
-            </Card>
-        </div>
+        <WebsiteTraffic url={url} />
+        <CompetitorAnanlysis url={url} />
       </div>
 
     </div> }

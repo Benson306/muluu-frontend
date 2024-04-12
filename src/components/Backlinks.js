@@ -27,7 +27,7 @@ function Backlinks({ url }) {
         })
         .then(response => response.json())
         .then(data => {
-            setBacklinks(data.backlinks);
+            setBacklinks(data.result.backlinks);
             setLoading(false);
             
         })
@@ -49,12 +49,19 @@ function Backlinks({ url }) {
             </div>
         }
         {
-            !loading && backlinks.map( (backlink, index) => (
+            !loading && !error && backlinks
+            .filter((backlink, index, array) => 
+                array.findIndex(item => item.title === backlink.title) === index)
+            .slice(0,11)
+            .map( (backlink, index) => (
                 // <p className="text-gray-600 dark:text-gray-400">{ backlink.url_from }</p>
                 <div key={index} className='border border-gray-300 p-2 mb-1'>
                     <Link key={index} to={backlink.url_from} target='_blank' className='text-sm text-blue-500 hover:underline'>{backlink.title}</Link>
                 </div>
             )) 
+        }
+        {
+            !loading && error && <div className='text-red-500 text-sm ml-2'>This data is unavailable at the moment. Try again later</div>
         }
         </CardBody>
     </Card>

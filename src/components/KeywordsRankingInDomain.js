@@ -35,10 +35,13 @@ function KeywordsRankingInDomain({ url }) {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
-            setKeywords(data.keywords);
-            setLoading(false);
-            
+            if(data == "Failed"){
+                setError(true);
+                setLoading(false);
+            }else{
+                setKeywords(data.keywords);
+                setLoading(false);
+            }
         })
         .catch(err =>{
             setError(true);
@@ -48,15 +51,19 @@ function KeywordsRankingInDomain({ url }) {
     },[])
   return (
     <div>
-        {
-            loading && 
-            <div className='flex justify-center mt-5'>
-                <ReactLoading type={"spin"} color={"#805ad5"} height={'5%'} width={'5%'} />
-            </div>
-        }
+        
         <Card className="mb-5 w-full">
         <CardBody>
-        <TableContainer className="mb-8">
+            {
+                loading && 
+                <div className='flex justify-center mt-5'>
+                    <ReactLoading type={"spin"} color={"#805ad5"} height={'5%'} width={'5%'} />
+                </div>
+            }
+            {
+                !loading && error && <div className='text-red-500 text-sm ml-2'>This data is unavailable at the moment. Try again later</div>
+            }
+        { !loading && !error && <TableContainer className="mb-8">
         <Table>
           <TableHeader>
             <tr>
@@ -69,7 +76,7 @@ function KeywordsRankingInDomain({ url }) {
           </TableHeader>
           <TableBody>
             {
-                !loading && keywords.length > 0 && keywords.map( keyword => (
+                !loading && !error && keywords.length > 0 && keywords.map( keyword => (
                     <TableRow>
                         <TableCell>
                             <span className="text-sm">{keyword.keyword}</span>
@@ -92,7 +99,7 @@ function KeywordsRankingInDomain({ url }) {
               
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> }
         </CardBody>
     </Card>
         {/* {
