@@ -7,7 +7,7 @@ import SectionTitle from '../components/Typography/SectionTitle'
 function CompetitorAnanlysis({ url }) {
   return (
     <div>
-    <SectionTitle>Competitor Ananlysis</SectionTitle>
+    <SectionTitle>Competitor analysis</SectionTitle>
     <div className='block lg:flex gap-4 mb-5'>
         <div className="mb-5 w-full lg:w-1/2">
             <Card className="mb-5 ">

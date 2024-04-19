@@ -76,12 +76,12 @@ function WebsiteTraffic({ url }) {
 
   return (
     <div>
-        <PageTitle>Website Traffic</PageTitle>
-        <div className='block lg:flex gap-4 mb-5'>
+        <SectionTitle>Website traffic</SectionTitle>
+        <div className='block lg:flex gap-4 mb-2'>
         <div className="mb-5 w-full lg:w-1/2">
             <Card className="mb-5 w-full p-2">
                 <div className='pl-2 pt-2'>
-                    <SectionTitle>Historical Traffic</SectionTitle>
+                    <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Historical traffic</p>
                 </div>
             {
                 loading && 
@@ -126,7 +126,7 @@ function WebsiteTraffic({ url }) {
         <div className="mb-5 w-full lg:w-1/2">
             <Card className="mb-5 w-full p-2">
                 <div className='pl-2 pt-2'>
-                    <SectionTitle>Local Traffic</SectionTitle>
+                <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Local traffic</p>
                 </div>
             {
                 loading && 

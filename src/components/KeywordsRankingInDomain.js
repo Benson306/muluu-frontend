@@ -51,9 +51,9 @@ function KeywordsRankingInDomain({ url }) {
     },[])
   return (
     <div>
-        
         <Card className="mb-5 w-full">
         <CardBody>
+            <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Keywords that website ({url}) ranks for</p>
             {
                 loading && 
                 <div className='flex justify-center mt-5'>

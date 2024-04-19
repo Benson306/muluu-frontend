@@ -65,7 +65,7 @@ function SiteStats({ url }) {
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Technical Stats</p>
         
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Page Load Speed" value={`${data.load_speed} ms`}>
+        <InfoCard title="Page Load Speed" value={`${data.load_speed} s`}>
           <RoundIcon
             icon={BackLinkIcon}
             iconColorClass="text-orange-500 dark:text-orange-100"

@@ -15,6 +15,7 @@ import KeywordsRankingInDomain from '../components/KeywordsRankingInDomain';
 import { AuthContext } from '../context/AuthContext';
 import KeywordOpportunity from '../components/KeywordOpportunity';
 import WebsiteTraffic from './WebsiteTraffic';
+import CompetitorRanking from './CompetitorsRanking';
 
 function Domains() {
 
@@ -139,7 +140,8 @@ function Domains() {
       <SiteStats url={url} />
       <div className='block lg:flex gap-4 mb-5'>
         <div className='w-full lg:w-1/2 mb-5'>
-            <KeywordOpportunity url={url} error={error} keywordOpportunity={keywordOpportunity} />                
+            {/* <KeywordOpportunity url={url} error={error} keywordOpportunity={keywordOpportunity} /> */}
+            <CompetitorRanking url={url} />
         </div>
 
         <div className="w-full lg:w-1/2 mb-5">
@@ -148,7 +150,6 @@ function Domains() {
       </div>
 
       <div className='mb-5'>
-        <SectionTitle>Keywords that website ({url}) ranks for</SectionTitle>
         <KeywordsRankingInDomain url={url} />
         <WebsiteTraffic url={url} />
         <CompetitorAnanlysis url={url} />

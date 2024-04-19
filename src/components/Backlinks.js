@@ -39,7 +39,7 @@ function Backlinks({ url }) {
     },[])
   return (
     <div>
-    <Card className="mb-5 ">
+    <Card className="mb-2">
         <CardBody>
         <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Backlinks</p>
         {
