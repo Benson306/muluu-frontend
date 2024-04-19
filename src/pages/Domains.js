@@ -139,7 +139,6 @@ function Domains() {
       <SiteStats url={url} />
       <div className='block lg:flex gap-4 mb-5'>
         <div className='w-full lg:w-1/2 mb-5'>
-            <SectionTitle>Keyword Stats</SectionTitle>
             <KeywordOpportunity url={url} error={error} keywordOpportunity={keywordOpportunity} />                
         </div>
 

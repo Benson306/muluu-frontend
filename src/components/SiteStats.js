@@ -18,19 +18,19 @@ function SiteStats({ url }) {
   const { token } = useContext(AuthContext);
 
   useEffect(()=>{
-    fetch(`${process.env.REACT_APP_API_URL}/site-metrics`,{
+    fetch(`${process.env.REACT_APP_LOCAL_IP}/page_seo`,{
       method:'POST',
       headers:{
         'Content-Type':'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        sitename : url
+        domain : url
       })
     })
     .then(response => response.json())
     .then(response => {
-      setData(response);
+      setData(response.result);
       setResultAvailable(true);
       setLoading(false);
     })
@@ -65,7 +65,7 @@ function SiteStats({ url }) {
         <p className="mb-4 font-semibold text-gray-600 dark:text-gray-300">Technical Stats</p>
         
         <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Page Load Time" value={data.page_load_time}>
+        <InfoCard title="Page Load Speed" value={`${data.load_speed} ms`}>
           <RoundIcon
             icon={BackLinkIcon}
             iconColorClass="text-orange-500 dark:text-orange-100"
@@ -74,7 +74,7 @@ function SiteStats({ url }) {
           />
         </InfoCard>
 
-        <InfoCard title="Total Blocking Time" value={data.total_blocking_time}>
+        <InfoCard title="Page Content Size" value={`${data.content_size} Kbs`}>
           <RoundIcon
             icon={RankIcon}
             iconColorClass="text-green-500 dark:text-green-100"
@@ -83,7 +83,7 @@ function SiteStats({ url }) {
           />
         </InfoCard>
 
-        <InfoCard title="Server Response Time" value={data.server_response_time}>
+        <InfoCard title="Internal Links Count" value={data.internal_links_count}>
           <RoundIcon
             icon={DomainIcon}
             iconColorClass="text-blue-500 dark:text-blue-100"
@@ -92,7 +92,7 @@ function SiteStats({ url }) {
           />
         </InfoCard>
 
-        <InfoCard title="Speed" value={data.speed_index}>
+        <InfoCard title="External Links Count" value={data.external_links_count}>
           <RoundIcon
             icon={ForbiddenIcon}
             iconColorClass="text-teal-500 dark:text-teal-100"

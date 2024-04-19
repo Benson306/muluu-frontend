@@ -39,7 +39,7 @@ function KeywordsRankingInDomain({ url }) {
                 setError(true);
                 setLoading(false);
             }else{
-                setKeywords(data.keywords);
+                setKeywords(data.result.keywords);
                 setLoading(false);
             }
         })
@@ -68,30 +68,34 @@ function KeywordsRankingInDomain({ url }) {
           <TableHeader>
             <tr>
               <TableCell></TableCell>
-              <TableCell>Volume</TableCell>
-              <TableCell>Estimated Traffic Volume</TableCell>
+              <TableCell>Search Volume</TableCell>
+              <TableCell>Keyword Difficulty</TableCell>
               <TableCell>Competition</TableCell>
+              <TableCell>Competition Level</TableCell>
               <TableCell>CPC</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
             {
-                !loading && !error && keywords.length > 0 && keywords.map( keyword => (
+                !loading && !error && keywords.length > 0 && keywords.slice(0,11).map( keyword => (
                     <TableRow>
                         <TableCell>
                             <span className="text-sm">{keyword.keyword}</span>
                         </TableCell>
                         <TableCell>
-                            <span className="text-sm">{keyword.avg_search_volume}</span>
+                            <span className="text-sm">{keyword.search_volume}</span>
                         </TableCell>
                         <TableCell>
-                            <span className="text-sm">{keyword.estimated_traffic_volume}</span>
+                            <span className="text-sm">{keyword.keyword_difficulty}</span>
+                        </TableCell>
+                        <TableCell>
+                            <span className="text-sm">{keyword.competition}</span>
                         </TableCell>
                         <TableCell>
                             <span className="text-sm">{keyword.competition_level}</span>
                         </TableCell>
                         <TableCell>
-                            <span className="text-sm">{keyword.avg_cpc}</span>
+                            <span className="text-sm">{keyword.cpc}</span>
                         </TableCell>
                     </TableRow>
                 ))
