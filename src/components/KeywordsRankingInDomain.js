@@ -33,13 +33,14 @@ function KeywordsRankingInDomain({ url }) {
                 domain: url
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            if(data == "Failed"){
-                setError(true);
-                setLoading(false);
+        .then(response => {
+            if(response.ok){
+                response.json().then(res => {
+                    setKeywords(res.result.keywords);
+                    setLoading(false);
+                })
             }else{
-                setKeywords(data.result.keywords);
+                setError(true);
                 setLoading(false);
             }
         })
@@ -63,7 +64,10 @@ function KeywordsRankingInDomain({ url }) {
             {
                 !loading && error && <div className='text-red-500 text-sm ml-2'>This data is unavailable at the moment. Try again later</div>
             }
-        { !loading && !error && <TableContainer className="mb-8">
+            {
+                !loading && !error && keywords.length < 1 && <div className='text-red-500 text-sm ml-2'>No keywords ranking for this domain</div>
+            }
+        { !loading && !error && keywords.length > 0 && <TableContainer className="mb-8">
         <Table>
           <TableHeader>
             <tr>
@@ -106,15 +110,6 @@ function KeywordsRankingInDomain({ url }) {
       </TableContainer> }
         </CardBody>
     </Card>
-        {/* {
-            !loading && backlinks.map( (backlink, index) => (
-                // <p className="text-gray-600 dark:text-gray-400">{ backlink.url_from }</p>
-                <div key={index} className='border border-gray-300 p-2 mb-1'>
-                    <Link key={index} to={backlink.url_from} target='_blank' className='text-sm text-blue-500 hover:underline'>{backlink.title}</Link>
-                </div>
-            )) 
-        } */}
-
     </div>
   )
 }

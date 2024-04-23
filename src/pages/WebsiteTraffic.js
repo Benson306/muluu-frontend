@@ -32,13 +32,19 @@ function WebsiteTraffic({ url }) {
             body: JSON.stringify({
               domain: url
             })
-          })
-          .then(response => response.json())
-          .then(response => {
-            setTraffic(response.result);
-            setLoading(false);
-          })
-          .catch(err => {
+        })
+        .then(response =>{
+            if(response.ok){
+                response.json().then(res => {
+                    setTraffic(res.result);
+                    setLoading(false);
+                })
+            }else{
+                setError(true);
+                setLoading(false);
+            }
+        })
+        .catch(err => {
             console.log(err);
             setError(true);
             setLoading(false);

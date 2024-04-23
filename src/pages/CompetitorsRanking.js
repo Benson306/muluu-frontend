@@ -33,10 +33,16 @@ function CompetitorRanking({ url }) {
               domain: url
             })
           })
-          .then(response => response.json())
-          .then(response => {
-            setTraffic(response.result.domain_statistics);
-            setLoading(false);
+          .then(response =>{
+            if(response.ok){
+                response.json().then(res => {
+                    setTraffic(res.result.domain_statistics);
+                    setLoading(false);
+                })
+            }else{
+                setError(true);
+                setLoading(false);
+            }
           })
           .catch(err => {
             console.log(err);
@@ -46,7 +52,9 @@ function CompetitorRanking({ url }) {
     },[])
 
   return (
-            <Card className="mb-5 w-full p-2">
+            <Card className="mb-2">
+                <CardBody>
+                    <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Domain Statistics</p>
             {
                 loading && 
                 <div className='flex justify-center mt-5'>
@@ -58,8 +66,6 @@ function CompetitorRanking({ url }) {
             }
             {
                 !loading && !error && 
-                <CardBody>
-                    <p className="mb-5 font-semibold text-gray-600 dark:text-gray-300">Domain Statistics</p>
                     <TableContainer className="mb-8">
                         <Table>
                             <TableHeader>
@@ -161,8 +167,9 @@ function CompetitorRanking({ url }) {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </CardBody>
+                
             }
+            </CardBody>
             </Card>
   )
 }

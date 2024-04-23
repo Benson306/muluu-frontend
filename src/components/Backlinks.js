@@ -25,11 +25,16 @@ function Backlinks({ url }) {
                 domain: url
             })
         })
-        .then(response => response.json())
-        .then(data => {
-            setBacklinks(data.result.backlinks);
-            setLoading(false);
-            
+        .then(response =>{
+            if(response.ok){
+                response.json().then(res => {
+                    setBacklinks(res.result.backlinks);
+                    setLoading(false);
+                })
+            }else{
+                setError(true);
+                setLoading(false);
+            }
         })
         .catch(err =>{
             setError(true);

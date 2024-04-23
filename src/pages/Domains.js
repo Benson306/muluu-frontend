@@ -25,12 +25,12 @@ function Domains() {
   const [industry, setIndustry] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [keywordOpportunity, setKeywordOpportunity] = useState(null);
+  // const [keywordOpportunity, setKeywordOpportunity] = useState(null);
 
   const { token } = useContext(AuthContext);
 
   const handleSubmit = () => {
-
+    setResultAvailable(false);
     if(url == null || industry == null){
         toast.error('Fill all required Fields: Url & Select industry', {
           position: "top-right",
@@ -45,30 +45,32 @@ function Domains() {
       return;
     }
 
-    setLoading(true);
-    fetch(`${process.env.REACT_APP_API_URL}/keyword_opportunity`,{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        url,
-        industry
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      setKeywordOpportunity(response);
-      setLoading(false);
-      setResultAvailable(true);
-    })
-    .catch(err => {
-      console.log(err);
-      setError(true);
-      setLoading(false);
-      setResultAvailable(true);
-    })
+    setResultAvailable(true);
+
+    // setLoading(true);
+    // fetch(`${process.env.REACT_APP_API_URL}/keyword_opportunity`,{
+    //   method:'POST',
+    //   headers:{
+    //     'Content-Type':'application/json',
+    //     'Authorization': `Bearer ${token}`
+    //   },
+    //   body: JSON.stringify({
+    //     url,
+    //     industry
+    //   })
+    // })
+    // .then(response => response.json())
+    // .then(response => {
+    //   setKeywordOpportunity(response);
+    //   setLoading(false);
+    //   setResultAvailable(true);
+    // })
+    // .catch(err => {
+    //   console.log(err);
+    //   setError(true);
+    //   setLoading(false);
+    //   setResultAvailable(true);
+    // })
 
     
   }
